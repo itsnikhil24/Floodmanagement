@@ -1,0 +1,116 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body, html {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f6f8;
+  }
+  
+  .chat-ui {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    overflow: hidden;
+  }
+  
+  /* Title */
+  .title {
+    background-color: #4a90e2;
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  /* Chat Container */
+  .chat-container {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .chat-container::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 4px;
+  }
+  
+  .chat-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Chat Bubbles */
+  .chat-bubble {
+    max-width: 70%;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .bot-message {
+    align-self: flex-start;
+    background-color: #ececec;
+    color: #333333;
+  }
+  
+  .user-message {
+    align-self: flex-end;
+    background-color: #4a90e2;
+    color: #ffffff;
+  }
+  
+  /* Input Bar */
+  .input-bar {
+    display: flex;
+    padding: 1rem;
+    background-color: #f4f6f8;
+    border-top: 1px solid #ececec;
+  }
+  
+  .input-bar form {
+    display: flex;
+    width: 100%;
+  }
+  
+  .input-bar input[type="text"] {
+    flex-grow: 1;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+  }
+  
+  .input-bar button {
+    padding: 0.8rem;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .input-bar button:hover {
+    background-color: #357ab7;
+  }
+  

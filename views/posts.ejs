@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Items</title>
+    <style>
+          body {
+            background: linear-gradient(115deg, #b8c9e1, #cfd6d9);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            display: inline;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
+        }
+
+        /* Hide the menu for mobile by default */
+        .navbar ul {
+            display: none;
+        }
+
+        /* Show the toggle button for mobile */
+        .menu-toggle {
+            display: block;
+            font-size: 20px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        /* When the menu is active, display the links in a dropdown */
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: absolute;
+            top: 55px;
+            right: 15px;
+            background-color: #333;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        /* Full menu display on larger screens */
+        @media (min-width: 600px) {
+            .menu-toggle {
+                display: none; /* Hide toggle on larger screens */
+            }
+            .navbar ul {
+                display: flex; /* Show menu in row layout on larger screens */
+                position: static;
+            }
+        }
+
+        .orders-container {
+            width: 90%;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+       .item-info h1{
+        text-align: center;
+       }
+        .item-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #555;
+            margin: 4px 0;
+        }
+
+        .price {
+            font-size: 14px;
+            color: #333;
+            margin-top: 8px;
+        }
+        
+        .quantity, .grand-total {
+            font-weight: bold;
+            font-size: 16px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .details-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            align-self: start;
+            margin-top: 10px;
+        }
+
+        .details-btn:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>My Store</h1>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/home">Shop</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <h1 style="text-align: center; width: 100%;">Items For Sale</h1>
+    <div class="orders-container">
+        <% items.forEach(item => { %>
+            <div class="order-card">
+                <div class="item-image">
+                    <img src="/uploads/<%= item.imagePath %>" alt="<%= item.name %>">
+                </div>
+                <div class="item-info">
+                    <h1 class="item-title"><%= item.item %></h1>
+                    <p class="description">• Farm-Fresh Ingredients <br>• Organic and Pesticide-Free <br>• Protein-rich legumes</p>
+                    <p class="price">Each Item Price: $<%= item.priceRange %></p>
+                    <p class="quantity">Quantity Available: <%= item.quantity %></p>
+                    <p class="grand-total">Grand Total: $<%= item.priceRange * item.quantity %></p>
+                    <p class="status">Available</p>
+                    <button class="details-btn" onclick="window.location.href='/item/<%= item._id %>'">Details</button>
+
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</body>
+ <script>
+        // Toggle menu function for mobile responsiveness
+        function toggleMenu() {
+            const navbar = document.querySelector('.navbar');
+            navbar.classList.toggle('active');
+        }
+    </script>
+</html>

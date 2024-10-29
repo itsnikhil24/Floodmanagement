@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(115deg, #b8c9e1, #cfd6d9);
+            padding: 20px;
+        }
+        
+        .details-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fdfdfd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .details-container img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .details-container h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .details-container p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .back-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="details-container">
+    <img src="/uploads/<%= item.imagePath %>" alt="<%= item.name %>">
+    <h2><%= item.item %></h2>
+    <p><strong>Location:</strong> <%= item.address %></p>
+    <p><strong>Description:</strong> Farm-Fresh Ingredients, Authentic Local Flavors, Nutrient-Rich and Tasty, Organic and Pesticide-Free</p>
+    <p><strong>Each Item Price:</strong> $<%= item.priceRange %></p>
+    <p><strong>Quantity Available:</strong> <%= item.quantity %></p>
+    <p><strong>Grand Total:</strong> $<%= item.priceRange * item.quantity %></p>
+
+    <button class="back-btn" onclick="window.location.href='/items'">Back to List</button>
+</div>
+
+</body>
+</html>

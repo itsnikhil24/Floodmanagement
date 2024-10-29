@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell Your Item</title>
+  <link rel="stylesheet" href="stylesheets/community.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+  <div class="form-container">
+    <h2>Sell Your Item</h2>
+    <form action="/interaction" method="POST" enctype="multipart/form-data">
+      <!-- Name -->
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
+      
+      <!-- Phone Number -->
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+      
+      <!-- Address -->
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" placeholder="Your Address" required></textarea>
+      
+      <!-- Item to be Sold -->
+      <label for="item">Item to be Sold:</label>
+      <input type="text" id="item" name="item" placeholder="Item Name" required>
+      
+      <!-- Quantity -->
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required>
+      
+      <!-- Price Range -->
+      <label for="price-range">Price Range:</label>
+      <input type="text" id="price-range" name="price-range" placeholder="Enter Price Range" required>
+
+      <!-- Picture of Item -->
+      <label for="picture">Picture of Item:</label>
+      <input type="file" id="picture" name="picture" accept="image/*" required>
+      
+      <!-- Submit Button -->
+      <button type="submit">Submit</button>
+    </form>
+
+    <a href="/items" class="see-posts-btn">See All Posts</a>
+
+
+  </div>
+</body>
+</html>

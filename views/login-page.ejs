@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myanmar Flood Aid Management Login- "Create your account"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Google Font -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Changed font */
+            background-color: #1d1d1d;
+            background-image: radial-gradient(circle farthest-corner at 100% 100%, rgba(122, 167, 255, 0.32), transparent 44%), radial-gradient(circle farthest-corner at 0% 100%, rgba(255, 1, 1, 0.15), transparent 32%);
+            color: rgb(228, 225, 225);
+            height: 100vh; /* Full height */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .black-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: black;
+            padding: 10px 0;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .background-text {
+            white-space: nowrap;
+            font-size: 40px; /* Increased font size */
+            color: #FFFFFF; /* White text color */
+            animation: flow 15s linear infinite; /* Adjusted speed */
+        }
+
+        @keyframes flow {
+            0% {
+                transform: translateX(100%);
+            }
+            50% {
+                transform: translateX(-50%); /* Midpoint for seamless flow */
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* Full height for centering */
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background-color: rgba(44, 44, 44, 0.9); /* Slight transparency */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            width: 350px;
+            margin: auto;
+            filter: invert(1);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #f7f9f7;
+        }
+
+        .card form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card input {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #444;
+            color: white;
+        }
+
+        .card button {
+            padding: 10px;
+            background-color: white;
+            color:black ;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: white;
+        }
+
+        .card p {
+            text-align: center;
+        }
+
+        .card a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="black-bar">
+        <div class="background-text">Welcome to Flood Aid Management Login! "Create your Account"</div>
+    </div>
+    <div class="container">
+        <div class="card" id="login-card">
+            <h2>Login</h2>
+            <form action="/login" method="post">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <p>Don't have an account? <a href="#" id="register-link">Register</a></p>
+            </form>
+        </div>
+        <div class="card" id="register-card" style="display:none;">
+            <h2>Register</h2>
+            <form action="/register" method="post">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="text" name="phonenumber" placeholder="Phone Number" required>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+                <p>Already have an account? <a href="#" id="login-link">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const registerButton = document.getElementById("register-link");
+            const loginButton = document.getElementById("login-link");
+            const loginCard = document.getElementById("login-card");
+            const registerCard = document.getElementById("register-card");
+
+            registerButton.addEventListener("click", function() {
+                loginCard.style.display = "none"; // Hide login card
+                registerCard.style.display = "block"; // Show register card
+            });
+
+            loginButton.addEventListener("click", function() {
+                registerCard.style.display = "none"; // Hide register card
+                loginCard.style.display = "block"; // Show login card
+            });
+        });
+    </script>
+</body>
+</html>
