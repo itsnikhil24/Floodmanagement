@@ -44,3 +44,5 @@ function displayMessage(message, className) {
     chatContainer.appendChild(messageBubble);
     chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom
 }
+
+

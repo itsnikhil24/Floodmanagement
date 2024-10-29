@@ -12,7 +12,7 @@ import jwt from 'jsonwebtoken';
 import { GridFSBucket } from "mongodb";
 import { Readable } from "stream";
 
-const apiKey = "AIzaSyBmst3O5RD4WjR_d6UnTPR6GXgj5E5gaTY"; // Replace with your actual API key
+const apiKey = "AIzaSyCWl83AkJFRYHGq5ahbhSHsdxpWBe6fO7I"; // Replace with your actual API key
 const app = express();
 const PORT = 3000;
 let bucket;
@@ -111,17 +111,23 @@ app.post('/login', async (req, res) => {
 // Chatbot route with GoogleGenerativeAI
 app.post("/chatbot", async (req, res) => {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   
     const prompt = req.body.query;
+    console.log(prompt);
+  
     try {
-        const result = await model.generateContent(prompt);
-        res.send(result.data.choices[0].text);
+      const result = await model.generateContent(prompt);
+      const responseText = await result.response.text(); // Await to ensure text extraction
+  
+      // Send the plain text response directly
+      res.send(responseText); // Send response as plain text
     } catch (error) {
-        console.error("Error generating AI response:", error);
-        res.status(500).send("An error occurred with the AI service.");
+      console.error("Error generating AI response:", error);
+      res.status(500).send("An error occurred with the AI service."); // Send error message if any
     }
-});
+  });
+  
 
 // Interaction route with file upload and item creation
 app.post("/interaction", upload.single("picture"), async (req, res) => {
@@ -210,6 +216,10 @@ app.get('/item/:id', async (req, res) => {
         res.status(500).send('Item not found');
     }
 });
+
+app.get("/govtscheme",(req,res)=>{
+    res.render("govtscheme.ejs");
+})
 
 
 

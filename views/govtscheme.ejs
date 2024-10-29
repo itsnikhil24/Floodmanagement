@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flood Aid Management Portal</title>
+  <link rel="stylesheet" href="stylesheets\govtscheme.css">
+</head>
+<body>
+  <header>
+    <div class="nav-bar">
+      <a href="#">Home</a>
+      <a href="#">Help Bot</a>
+      <a href="#">Government Schemes</a>
+      <a href="#">Marketplace</a>
+    </div>
+    <div class="header-content">
+      <h1>Flood Aid Management for Farmers</h1>
+      <p>Connecting you with resources and support during flood relief efforts</p>
+      <button class="explore-button" onclick="scrollToSections()">Explore More</button>
+    </div>
+  </header>
+
+  <section class="main-section">
+    <h2>NGOs Supporting Farmers</h2>
+    <div class="dropdown-container">
+      <label for="domain-select">Select a Domain:</label>
+      <select id="domain-select" class="styled-dropdown" onchange="filterCards()">
+        <option value="">Select a Domain</option>
+        <option value="Health">Health</option>
+        <option value="General Support">General Support</option>
+        <option value="Agriculture">Agriculture</option>
+      </select>
+    </div>
+
+    <main class="main-section">
+        <h2>List of NGOs</h2>
+        <div class="card-container">
+            <!-- Health NGOs -->
+            <div class="card health-card">
+                <img src="https://img.freepik.com/premium-photo/health-care-concept-with-icons-health-medicals-hospitals-background_593195-1929.jpg" alt="Myanmar Red Cross Society" />
+                <h3>Myanmar Red Cross Society (MRCS)</h3>
+                <a class="read-more" href="https://www.redcross.org/mm" target="_blank">Learn more</a>
+            </div>
+
+            <div class="card health-card">
+                <img src="https://ichef.bbci.co.uk/news/480/cpsprodpb/d02e/live/1c68df10-6080-11ef-9dfc-25a1efaeeef8.jpg" alt="Metta Development Foundation" />
+                <h3>Metta Development Foundation</h3>
+                <a class="read-more" href="https://www.mettafoundation.org" target="_blank">Learn more</a>
+            </div>
+
+            <div class="card health-card">
+                <img src="https://www.forcesnews.com/sites/default/files/doctor-and-patient-rawpixel-id-380342-SFW.jpg" alt="Médecins Sans Frontières" />
+                <h3>Médecins Sans Frontières (MSF)</h3>
+                <a class="read-more" href="https://www.msf.org" target="_blank">Learn more</a>
+            </div>
+
+            <!-- General Support NGOs -->
+            <div class="card general-support-card">
+                <img src="https://cdn.blastness.biz/media/820/blog/thumbs/full/logo_actionaid_ok.png" alt="ActionAid Myanmar" />
+                <h3>ActionAid Myanmar</h3>
+                <a class="read-more" href="https://www.actionaid.org" target="_blank">Learn more</a>
+            </div>
+
+            <div class="card general-support-card">
+                <img src="https://myanmar.actionaid.org/sites/myanmar/files/styles/landing_page_medium/public/images/2019-07/ActiionAid_WM%20%2818%20of%201%29.JPG?h=2cb5c4c9&itok=TDecS9bI" alt="Proximity Designs" />
+                <h3>Proximity Designs</h3>
+                <a class="read-more" href="https://www.proximitydesigns.org" target="_blank">Learn more</a>
+            </div>
+
+            <div class="card general-support-card">
+                <img src="https://live.staticflickr.com/1188/1463708085_5c630c76c0_h.jpg" alt="Save Myanmar Children" />
+                <h3>Save Myanmar Children</h3>
+                <a class="read-more" href="https://www.savemyanmarchildren.org" target="_blank">Learn more</a>
+            </div>
+
+            <!-- Agriculture NGOs -->
+            <div class="card agriculture-card">
+                <img src="https://www.rujutadiwekar.com/images/20May16-New%20Designs/SCFP/Sonave_main_banner-1280.jpg" alt="Oxfam Myanmar" />
+                <h3>Oxfam Myanmar</h3>
+                <a class="read-more" href="https://www.oxfam.org/en/countries/myanmar" target="_blank">Learn more</a>
+            </div>
+
+            <div class="card agriculture-card">
+                <img src="https://media.assettype.com/newindianexpress%2F2024-09-20%2Fraov28z4%2FC_40_1_CH1455_27629459.jpg?w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100" alt="Mercy Crops Myanmar" />
+                <h3>Mercy Crops Myanmar</h3>
+                <a class="read-more" href="https://mercycrops.org" target="_blank">Learn more</a>
+            </div>
+
+            <div class="card agriculture-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaAXsr_ohON_axMzQvfDPpYb_Sxz4lju1Kpd4kPgoeEfVD502WmGIym1C4qiWxb2JZ_Xw&usqp=CAU" alt="Asia Farmers Association" />
+                <h3>Asia Farmers Association</h3>
+                <a class="read-more" href="https://www.asiafarmers.org" target="_blank">Learn more</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Myanmar Initiatives. All rights reserved.</p>
+    </footer>
+  </section>
+
+  <script>
+    function scrollToSections() {
+      document.querySelector('.main-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function filterCards() {
+      const selectedDomain = document.getElementById('domain-select').value;
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        if (selectedDomain === '' || card.classList.contains(selectedDomain.toLowerCase() + '-card')) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

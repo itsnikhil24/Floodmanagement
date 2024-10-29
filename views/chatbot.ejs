@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HelpBot</title>
-    <link rel="stylesheet" href="stylesheets\chatbot.css" />
-  </head>
-  <body>
-    <div class="chat-ui">
-      <h1 class="title">HelpBot</h1>
-      <div id="chat-container" class="chat-container"></div>
-      <div class="input-bar">
-        <form id="myForm" action="/chatbot" method="post">
-          <input id="query" type="text" name="query" placeholder="Type your message..." required />
-          <button type="submit">Send</button>
-        </form>
-      </div>
+    <link rel="stylesheet" href="stylesheets/chatbot.css" />
+</head>
+<body>
+    <div class="container">
+        <header class="navbar">
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="chat-ui">
+            <h1 class="title">FloodBot</h1>
+            <div id="chat-container" class="chat-container"></div>
+            <div class="input-bar">
+                <form id="myForm" action="/chatbot" method="post">
+                    <input id="query" type="text" name="query" placeholder="Type your message..." required />
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </body>
-  <script src="scripts\chatbot.js">
-    
-  </script>
+
+    <script src="scripts/chatbot.js"></script>
+</body>
 </html>
