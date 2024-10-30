@@ -19,12 +19,19 @@ body {
   background-color: #ffffff;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
+.logo{
+  height :4em
+}
 
 .logo a {
   color: #d8d8d8;
   text-decoration: none;
   font-size: 24px;
   font-weight: bold;
+}
+.logo img{
+  height: 100%;
+  width: auto;
 }
 
 .search-container {
@@ -42,46 +49,73 @@ body {
   border-radius: 4px;
 }
 
+/* Container for dropdown button */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
+/* Main button styling with custom arrow */
 .dropbtn {
+  min-width: 240px;
   background-color: white;
   color: #626a72;
   padding: 10px 15px;
-  font-size: 16px;
-  border: none;
+  font-size: 24px;
+  border: 1px solid #b3c1ff; /* Light border color */
+  border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  
 }
 
+/* Adding a custom arrow icon */
+.dropbtn::after {
+  content: "▼";
+  font-size: 12px;
+  color: #626a72;
+  margin-left: 10px;
+}
+
+/* Dropdown content styling */
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 240px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
   z-index: 1;
+  padding: 10px 0;
 }
 
+/* Links inside dropdown */
 .dropdown-content a {
-  color: black;
+  color: #333;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Hover effect for links */
 .dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: #e6e9ff; /* Light hover color */
+  color: #000;
 }
 
+/* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
+/* Button hover effect */
 .dropdown:hover .dropbtn {
-  background-color: #555;
+  background-color: #e6e9ff; /* Light blue hover */
+  color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow */
 }
 
 .auth-buttons {

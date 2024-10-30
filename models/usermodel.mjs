@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+// mongoose.connect("mongodb://localhost:27017/floodmanagement");
+// mongoose.connect(`mongodb://localhost:27017/floodmanagement`); 
+
+
 const userSchema = mongoose.Schema({
     Name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
@@ -13,4 +17,4 @@ const userSchema = mongoose.Schema({
     ]
 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('user', userSchema);
