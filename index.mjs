@@ -13,12 +13,12 @@ import { GridFSBucket } from "mongodb";
 import { Readable } from "stream";
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-dotenv.config(); // Corrected
+dotenv.config(); // Correctes
 
 
 const apiKey = process.env.apiKey;
 const mongoURI = process.env.mongoURI;
-const PORT=process.env.PORT
+const PORT = process.env.PORT || 5000
 const app = express();
 let bucket;
 
@@ -143,7 +143,7 @@ app.post("/chatbot", isloggedIn, async (req, res) => {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = req.body.query;
-    
+
 
     try {
         const result = await model.generateContent(prompt);
@@ -254,3 +254,5 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+export default app;
