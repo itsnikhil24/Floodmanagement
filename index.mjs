@@ -13,6 +13,7 @@ import { GridFSBucket } from "mongodb";
 import { Readable } from "stream";
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import ejs from 'ejs';
 dotenv.config(); // Correctes
 
 
