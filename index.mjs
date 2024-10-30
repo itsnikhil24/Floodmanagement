@@ -23,7 +23,7 @@ const app = express();
 let bucket;
 
 // Set EJS as the view engine
-app.set('view engine', 'ejs');
+app.set('views', path.resolve(process.cwd(), 'views'));
 
 // Middleware setup
 app.use(cookieParser()); // Corrected: Use cookie-parser middleware
