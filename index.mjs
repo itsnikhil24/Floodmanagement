@@ -11,11 +11,15 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { GridFSBucket } from "mongodb";
 import { Readable } from "stream";
-import cookieParser from 'cookie-parser'; // Corrected
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+dotenv.config(); // Corrected
 
-const apiKey = "AIzaSyCWl83AkJFRYHGq5ahbhSHsdxpWBe6fO7I"; // Replace with your actual API key
+
+const apiKey = process.env.apiKey;
+const mongoURI = process.env.mongoURI;
+const PORT=process.env.PORT
 const app = express();
-const PORT = 3000;
 let bucket;
 
 // Set EJS as the view engine
@@ -30,7 +34,7 @@ app.use(cors());
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // MongoDB connection URI
-const mongoURI = "mongodb://localhost:27017/floodmanagement"; // Replace with your database name
+
 
 // Connect to MongoDB using Mongoose and set up GridFSBucket
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -139,7 +143,7 @@ app.post("/chatbot", isloggedIn, async (req, res) => {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = req.body.query;
-    console.log(prompt);
+    
 
     try {
         const result = await model.generateContent(prompt);
