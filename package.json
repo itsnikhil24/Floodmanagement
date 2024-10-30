@@ -1,9 +1,9 @@
 {
   "name": "flood-management-website",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
-   "start": "node index.js"
+   "start": "node index.mjs"
   },
   "author": "",
   "license": "ISC",
