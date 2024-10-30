@@ -20,34 +20,40 @@
       <div class="dropdown">
         <button class="dropbtn">All Resources</button>
         <div class="dropdown-content">
-          <a href="#">Resource 1</a>
-          <a href="#">Resource 2</a>
-          <a href="#">Resource 3</a>
+          <a href="/chatbot">ChatBot</a>
+          <a href="#">Community Interaction</a>
+          <a href="#">NGO's</a>
         </div>
       </div>
 
       <!-- Login/Signup Buttons -->
       <div class="auth-buttons">
-        <button class="login-btn">MarketPlace</button>
+        <a href="/items"><button class="login-btn">MarketPlace</button></a>
         <button class="signup-btn">Logout</button>
       </div>
     </nav>
     
     <div class="hero">
-      <div class="w-layout-grid-hero-grid">
+      <div class="hero-container">
+        <!-- Left Side (Text and Button) -->
         <div class="text-box_500px">
           <h1 class="heading-h1">Empowering Farmers with Smart Solutions for Flood Recovery <br> and Resilient Agriculture.</h1>
           <p class="paragraph-large">
             Bridging Farmers with Relief Networks and Communities to Ensure No Crop Goes to Waste, Strengthening Livelihoods and Supply Chains.
           </p>
           <div class="spacer_16"></div>
-          <a href="/sign-up" class="button-w-button">Get Access Now</a>
+          <a href="#container" class="button-w-button">Get Access Now</a>
+        </div>
+    
+        <!-- Right Side (Image) -->
+        <div class="hero-image">
+          <img src="https://cdn.prod.website-files.com/62aee78456e4207786ac4d18/62aeefb7ef1a0b764b386779_Design%20Resources%20Home.svg" alt="Hero Image">
         </div>
       </div>
     </div>
     
     <div class="Featured-recources-heading"><h2>Featured Resources</h2></div>
-    <div class="container">
+    <div class="container" id="container">
       
       <!-- Card 1 -->
       <div class="card">
@@ -103,15 +109,15 @@
       <div class="footer-content">
         <div class="brand-info">
           <img src="logo.png" alt="Memberbase logo" class="logo">
-          <p>Built by <a href="#">Nikolai Bain</a>. Powered by Webflow.</p>
-          <p>© 2022 Memberbase. All Rights Reserved.</p>
+          <p>Built by <a href="#">Ambika & Nikhil</a>. Powered by FarmFloodAid.</p>
+          <p>© 2024 FarmFloodAid . All Rights Reserved.</p>
         </div>
         <div class="footer-links">
           <div class="column">
             <h4>WEBSITE</h4>
             <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Resources</a></li>
+              <li><a href="/home">Home</a></li>
+              <li><a href="/home">Resources</a></li>
               <li><a href="#">Contact</a></li>
               <li><a href="#">Ebook (CMS)</a></li>
               <li><a href="#">Terms & Conditions</a></li>
@@ -119,10 +125,8 @@
             </ul>
           </div>
           <div class="column">
-            <h4>MEMBERSHIP</h4>
+            <h4>FarmFloodAid</h4>
             <ul>
-              <li><a href="#">Sign In</a></li>
-              <li><a href="#">Sign Up</a></li>
               <li><a href="#">User Account</a></li>
               <li><a href="#">Reset Password</a></li>
             </ul>

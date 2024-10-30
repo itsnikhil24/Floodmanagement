@@ -1,128 +1,100 @@
-* {
+/* Reset some basic styles */
+body {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     font-family: Arial, sans-serif;
-  }
-  
-  body {
-    background-color: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  .form-container {
-    width: 90%;
-    max-width: 600px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-container h2 {
-    font-size: 24px;
-    color: #3c3f41;
-    margin-bottom: 20px;
+    background: linear-gradient(90deg, rgb(241, 239, 241) 50%, rgb(211, 213, 216) 100%); /* Gradient background */
+}
+
+/* Header Section */
+.header {
+    background: linear-gradient(90deg, rgb(68, 25, 25) 0%, rgb(16, 38, 77) 100%);
+    color: white;
+    padding: 50px 20px;
     text-align: center;
-  }
-  
-  label {
-    display: block;
-    font-size: 16px;
-    color: #3c3f41;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  input[type="text"],
-  input[type="tel"],
-  input[type="number"],
-  input[type="file"],
-  textarea {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #d3d3d3;
+}
+
+.header h1 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.header p {
+    font-size: 18px;
+    margin: 10px 0 20px 0;
+}
+
+.sell-item-btn {
+    background-color: #3b67b3; /* Dark blue button */
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    transition: background 0.3s;
+}
+
+.sell-item-btn:hover {
+    background-color: #2fc2a2; /* Green on hover */
+}
+
+/* Marketplace Section */
+.marketplace {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.marketplace h2 {
+    font-size: 28px;
+    color: #333;
+}
+
+/* Form Container */
+.form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container h2 {
+    text-align: center;
     margin-bottom: 20px;
-    transition: border-color 0.3s ease;
-  }
-  
-  input[type="text"]:focus,
-  input[type="tel"]:focus,
-  input[type="number"]:focus,
-  textarea:focus {
-    border-color: #6c7ae0;
-    outline: none;
-  }
-  
-  button {
+}
+
+.form-container label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.form-container input, .form-container textarea {
     width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container button {
+    background-color: #7d75d9; /* Button color */
+    color: white;
     padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #6c7ae0;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #5b6acb;
-  }
-  
-  textarea {
-    resize: none;
-    height: 100px;
-  }
-  
-  input[type="file"] {
-    padding: 8px;
-    font-size: 14px;
-    border: none;
-  }
-  
-  input[type="text"]::placeholder,
-  input[type="tel"]::placeholder,
-  textarea::placeholder {
-    color: #a1a1a1;
-    font-size: 14px;
-  }
-  
-  .form-container p {
-    color: #8c8c8c;
-    font-size: 14px;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.form-container button:hover {
+    background-color: #3b67b3; /* Darker on hover */
+}
+
+/* See Posts Button */
+.see-posts-btn {
+    display: block;
     text-align: center;
-  }
-  
-  @media (max-width: 600px) {
-    .form-container {
-      padding: 15px;
-    }
-  }
-  .see-posts-btn {
-    display: inline-block;
     margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #333;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  }
-  
-  .see-posts-btn:hover {
-    background-color: #555;
-    transform: scale(1.05);
-  }
-  
-   
+    color: #3b67b3;
+    text-decoration: underline;
+}

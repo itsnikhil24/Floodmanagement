@@ -191,7 +191,7 @@ app.post("/interaction", isloggedIn, upload.single("picture"), async (req, res) 
                     { new: true, useFindAndModify: false }
                 );
 
-                res.send("Form data and file uploaded successfully to MongoDB");
+                res.redirect("/items");
             });
     } catch (error) {
         console.error("Error uploading data:", error);

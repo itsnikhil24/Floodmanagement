@@ -5,92 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Items</title>
     <style>
-          body {
-            background: linear-gradient(115deg, #b8c9e1, #cfd6d9);
+        body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            background: linear-gradient(115deg, #d6e3f7, #efefef);
             padding: 0;
-        }
-
-        /* Navbar styling */
-        .navbar {
-            background-color: #333;
-            color: #fff;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar h1 {
-            font-size: 20px;
             margin: 0;
-            color: #ffffff;
         }
 
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 15px;
+        /* Header styling */
+        .header {
+            background: linear-gradient(135deg, #360635, #0e0752); /* Gradient background */
+            color: white;
+            text-align: center;
+            padding: 30px; /* Increased padding for a bigger header */
+            border-radius: 0;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
             margin: 0;
-            padding: 0;
+            font-size: 32px; /* Increased font size */
         }
 
-        .navbar li {
-            display: inline;
+        .header p {
+            margin: 5px 0;
+            font-size: 20px; /* Increased font size */
         }
 
-        .navbar a {
-            color: #fff;
+        /* Navigation Bar */
+        .nav {
+            display: flex;
+            justify-content: space-between; /* Space between items */
+            padding: 10px 20px; /* Padding for the navbar */
+            background-color: #0c0c0c;
+        }
+
+        .nav a {
+            color: white;
             text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: background 0.3s ease;
+            margin-right: 20px; /* Space between nav items */
+            font-size: 18px;
         }
 
-        .navbar a:hover {
-            background-color: #555;
+        .nav a:hover {
+            text-decoration: underline; /* Underline on hover */
         }
 
-        /* Hide the menu for mobile by default */
-        .navbar ul {
-            display: none;
-        }
-
-        /* Show the toggle button for mobile */
-        .menu-toggle {
-            display: block;
-            font-size: 20px;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        /* When the menu is active, display the links in a dropdown */
-        .navbar.active ul {
+        /* Card styling */
+        .item-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fdfdfd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            position: absolute;
-            top: 55px;
-            right: 15px;
-            background-color: #333;
-            border-radius: 5px;
-            padding: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        /* Full menu display on larger screens */
-        @media (min-width: 600px) {
-            .menu-toggle {
-                display: none; /* Hide toggle on larger screens */
-            }
-            .navbar ul {
-                display: flex; /* Show menu in row layout on larger screens */
-                position: static;
-            }
+        .item-card img {
+            width: 150px; /* Fixed width for image */
+            height: auto;
+            border-radius: 8px;
+            margin-right: 20px; /* Space between image and details */
+        }
+
+        .item-details {
+            flex: 1; /* Allow details to take remaining space */
+        }
+
+        .item-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .item-card p {
+            font-size: 16px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .item-card .item-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4a86e8;
+            margin: 10px 0;
+        }
+
+        .item-card .available {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px; /* Space above 'Available' text */
+        }
+
+        .item-card .details-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .item-card .details-btn:hover {
+            background-color: #555;
         }
 
         .orders-container {
@@ -187,17 +208,20 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <h1>My Store</h1>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/home">Shop</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-    <h1 style="text-align: center; width: 100%;">Items For Sale</h1>
+    <div class="nav">
+        <a href="#">FarmFloodAid</a>
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>Marketplace Ads</h1>
+        <p>Explore and add your items for sale!</p>
+    </div>
     <div class="orders-container">
         <% items.forEach(item => { %>
             <div class="order-card">
