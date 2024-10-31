@@ -4,7 +4,576 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Navbar Example</title>
-    <link rel="stylesheet" href="stylesheets/Home.css" />
+    <!-- <link rel="stylesheet" href="stylesheets/Home.css" /> -->
+     <style>
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  line-height: 1.5em;
+}
+
+body {
+  background-color: #f9f9f9;
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+.logo{
+  height :4em
+}
+
+.logo a {
+  color: #d8d8d8;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+.logo img{
+  height: 100%;
+  width: auto;
+}
+
+.search-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%; /* Full width on smaller screens */
+  max-width: 300px; /* Set a max width */
+  padding: 5px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Container for dropdown button */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Main button styling with custom arrow */
+.dropbtn {
+  min-width: 240px;
+  background-color: white;
+  color: #626a72;
+  padding: 10px 15px;
+  font-size: 24px;
+  border: 1px solid #b3c1ff; /* Light border color */
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  
+}
+
+/* Adding a custom arrow icon */
+.dropbtn::after {
+  content: "▼";
+  font-size: 12px;
+  color: #626a72;
+  margin-left: 10px;
+}
+
+/* Dropdown content styling */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 240px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 10px 0;
+}
+
+/* Links inside dropdown */
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for links */
+.dropdown-content a:hover {
+  background-color: #e6e9ff; /* Light hover color */
+  color: #000;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Button hover effect */
+.dropdown:hover .dropbtn {
+  background-color: #e6e9ff; /* Light blue hover */
+  color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.login-btn,
+.signup-btn {
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.login-btn {
+  color: #626a72;
+}
+
+.signup-btn {
+  background-color: #1d1d1d;
+  color: #ffffff;
+}
+
+.login-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.signup-btn:hover {
+  background-color: #222222;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  background: linear-gradient(to right, #add8e6, #e0ffff);
+
+  height: 30em;
+  display: flex;
+  
+
+}
+
+.w-layout-grid-hero-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.text-box_500px {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2em 0; /* Add vertical spacing */
+  align-items: center; /* Center align text box content */
+}
+
+.heading-h1 {
+  font-size: 35px;
+  margin-bottom: 0.4em;
+  margin-top: 2em;
+  text-align: center; /* Center align heading */
+}
+
+.w-layout-grid-hero-grid img {
+  margin-top: 4em;
+  max-width: 100%; /* Make images responsive */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.search-input {
+  background-color: #dcdcdc;
+  padding: 0.7em;
+  border-radius: 100px;
+}
+
+.paragraph-large {
+  margin-bottom: 1em;
+}
+
+.button-w-button {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  width: 10em;
+}
+
+/* Card styles */
+.container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 10px; /* Margin around cards for spacing */
+  flex: 1 1 200px; /* Flex basis for responsiveness */
+}
+
+.card-header {
+  background-image: linear-gradient(
+      54deg,
+      rgba(255, 131, 122, 0.25),
+      rgba(255, 131, 122, 0) 28%
+    ),
+    linear-gradient(
+      241deg,
+      rgba(239, 152, 207, 0.25),
+      rgba(239, 152, 207, 0) 36%
+    );
+  padding: 20px;
+  color: #333;
+}
+
+.card-header img {
+  max-width: 100%; /* Make images in cards responsive */
+  display: block;
+  margin: 0 auto;
+}
+
+.card-body {
+  background-color: #262626;
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.card-body img {
+  width: 100%; /* Full width of the card body */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 0; /* Remove extra margin if any */
+}
+
+
+.card-footer {
+  padding: 20px;
+  text-align: left;
+}
+
+.card-footer h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.card-footer p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Footer styles */
+footer {
+  background-color: #f5f7f9;
+  padding: 40px;
+  color: #6b7280;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* Allow footer items to wrap */
+}
+
+.brand-info {
+  flex: 1;
+  min-width: 150px; /* Set a minimum width for brand info */
+}
+
+.brand-info img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.brand-info p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.brand-info a {
+  color: #374151;
+  text-decoration: none;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  flex: 2;
+  flex-wrap: wrap; /* Allow footer links to wrap */
+}
+
+.footer-links .column {
+  margin-right: 20px;
+  min-width: 150px; /* Set a minimum width for footer columns */
+}
+
+.footer-links h4 {
+  font-size: 16px;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.footer-links ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 5px;
+}
+
+.footer-links ul li a {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links ul li a:hover {
+  color: #111827;
+}
+
+/* Featured Resources Heading */
+.Featured-recources-heading {
+  margin: 2em 0em 2em 5em;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack navbar items on small screens */
+    align-items: flex-start;
+  }
+
+  .search-input {
+    width: 100%; /* Full width on small screens */
+    max-width: none; /* Remove max-width restriction */
+  }
+
+  .text-box_500px {
+    margin: 1em; /* Adjust margin for smaller screens */
+    margin-left: 0;
+    margin-right: 0;
+    align-items: center; /* Center text box content */
+    text-align: center; /* Center text */
+  }
+
+  .w-layout-grid-hero-grid {
+    flex-direction: column; /* Stack hero section items */
+    align-items: center; /* Center align items */
+  }
+
+  .w-layout-grid-hero-grid img {
+    margin-top: 2em;
+    margin-right: 0; /* Remove right margin */
+    max-width: 100%; /* Ensure hero images are responsive */
+  }
+
+  .container {
+    justify-content: center; /* Center cards in smaller screens */
+  }
+
+  .card {
+    max-width: 90%; /* Limit max-width on smaller screens */
+    margin: 10px 0; /* Vertical margin */
+  }
+
+  .card-body {
+    padding: 20px; /* Reduce padding in card body */
+  }
+
+  .footer-content {
+    flex-direction: column; /* Stack footer items */
+    align-items: flex-start; /* Align items to the left */
+  }
+
+  .footer-links {
+    flex-direction: column; /* Stack footer links */
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px; /* Adjust navbar padding */
+  }
+
+  .logo a {
+    font-size: 20px; /* Smaller logo font size */
+  }
+
+  .search-input {
+    font-size: 14px; /* Smaller search input font size */
+  }
+
+  .auth-buttons {
+    flex-direction: column; /* Stack buttons */
+    width: 100%; /* Full width buttons */
+  }
+
+  .login-btn,
+  .signup-btn {
+    width: 100%; /* Full width buttons */
+    padding: 10px; /* Adjust button padding */
+    font-size: 14px; /* Smaller button font size */
+  }
+
+  .heading-h1 {
+    font-size: 28px; /* Smaller heading size */
+  }
+
+  .card-footer h3 {
+    font-size: 16px; /* Smaller footer heading size */
+  }
+
+  .card-footer p {
+    font-size: 12px; /* Smaller paragraph size */
+  }
+
+  .button-w-button {
+    width: 100%; /* Full width buttons */
+  }
+
+  .brand-info p {
+    font-size: 12px; /* Smaller brand info font size */
+  }
+
+  .footer-links h4 {
+    font-size: 14px; /* Smaller footer heading size */
+  }
+
+  .footer-links ul li a {
+    font-size: 12px; /* Smaller link font size */
+  }
+}
+footer {
+  margin-top :6em;
+}
+
+.black-button {
+  margin-top: 2em;
+  background-color: black; /* Black color */
+  color: white; /* Text color */
+  padding: 15px 30px; /* Padding for size */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.black-button:hover {
+  background-color: #333; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly increase size */
+}
+
+/* Hero Section Styling */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Optional background color */
+  padding: 50px 0;
+}
+
+/* Container for Flex Layout */
+.hero-container {
+  display: flex;
+  max-width: 1200px;
+  width: 90%;
+  height: 100%;
+  align-items: center;
+  gap: 30px; /* Space between text and image */
+}
+
+/* Left Side: Text and Button */
+.text-box_500px {
+  flex: 1; /* Takes up half the space */
+  max-width: 500px;
+}
+
+.heading-h1 {
+  font-size: 2em;
+  color: #333;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.paragraph-large {
+  font-size: 1.2em;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.button-w-button {
+  padding: 10px 20px;
+  background-color: #1D1D1D; /* Primary color for button */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.button-w-button:hover {
+  background-color: #3D3D3D; /* Darker shade on hover */
+}
+
+/* Right Side: Image */
+.hero-image {
+  flex: 1; /* Takes up half the space */
+  max-width: 500px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 8px; /* Optional rounded corners */
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .hero {
+    height: auto; /* Allow the height to adjust */
+    padding: 20px; /* Add padding for small screens */
+  }
+
+  .card {
+    flex-basis: 100%; /* Stack cards on small screens */
+  }
+}
+
+
+     </style>
   </head>
   <body>
     <nav class="navbar">
@@ -61,7 +630,7 @@
           <h1>Flood Response Bot</h1>
         </div>
         <div class="card-body">
-          <img src="images\Wavy_Tech-12_Single-01.jpg" alt="Grids and Alignment">
+          <img src="https://img.freepik.com/free-vector/chatbot-development-platform-abstract-concept-illustration_335657-3721.jpg?t=st=1730369109~exp=1730372709~hmac=b2946bd7ee023c6fd5372f4f7f861c588053d2ab5acacad8d0f5af40891e4685&w=740" alt="Grids and Alignment">
         </div>
         <div class="card-footer">
           <h3>Quick Tips for Farmers</h3>
@@ -77,7 +646,7 @@
           <h1>Community Interaction</h1>
         </div>
         <div   class="card-body"  >
-          <img src="images\indian agripreneurship - blog - 1500x1000.jpg" alt="Community Interaction">
+          <img src="https://digitalagrihub.org/documents/53473/53477/indian+agripreneurship+-+blog+-+1500x1000.jpg/53bc79de-7ba6-a0d5-48cd-d14293edcbf3?version=1.0&t=1665572149958" alt="Community Interaction">
         </div>
         <div class="card-footer">
           <h3>Support for Farmers in Need</h3>
@@ -94,7 +663,7 @@
     <h1>NGO Assistance</h1>
   </div>
   <div  style="padding-bottom: 4em; padding-top: 3.5em;" class="card-body">
-    <img src="images\Seven-Sisters-Development-Assistance-SeSTA-1024x575.jpg" alt="NGO Assistance for Farmers">
+    <img src="https://give.do/blog/wp-content/uploads/2022/09/Vrutti-1024x598.jpg" alt="NGO Assistance for Farmers">
   </div>
   <div class="card-footer">
     <h3>Connect with NGOs</h3>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Items</title>
+    <title>Add Posts - Marketplace</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -113,108 +113,17 @@
         .item-card .details-btn:hover {
             background-color: #555;
         }
-
-        .orders-container {
-            width: 90%;
-            margin: 20px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 20px;
-        }
-
-        .order-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #fff;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-
-            align-items: center;
-            gap: 15px;
-        }
-
-        .item-image {
-            flex-shrink: 0;
-            width: 200px;
-            height: 100%;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .item-info {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-       .item-info h1{
-        text-align: center;
-       }
-        .item-title {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .description {
-            font-size: 14px;
-            color: #555;
-            margin: 4px 0;
-        }
-
-        .price {
-            font-size: 14px;
-            color: #333;
-            margin-top: 8px;
-        }
-        
-        .quantity, .grand-total {
-            font-weight: bold;
-            font-size: 16px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        .status {
-            color: green;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .details-btn {
-            background-color: #000;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            align-self: start;
-            margin-top: 10px;
-        }
-
-        .details-btn:hover {
-            background-color: #333;
-        }
     </style>
 </head>
 <body>
+
     <div class="nav">
-        <a href="/home">FarmFloodAid</a>
+        <a href="#">My Store</a>
         <div>
-            <a href="/home">Home</a>
-            <a href="/items">Shop</a>
-            <a href="/chatbot">Chatbot</a>
-            <a href="/logout">Logout</a>
+            <a href="#">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
         </div>
     </div>
 
@@ -222,31 +131,34 @@
         <h1>Marketplace Ads</h1>
         <p>Explore and add your items for sale!</p>
     </div>
-    <div class="orders-container">
-        <% items.forEach(item => { %>
-            <div class="order-card">
-                <div class="item-image">
-                    <img src="/uploads/<%= item.imagePath %>" alt="<%= item.name %>">
-                </div>
-                <div class="item-info">
-                    <h1 class="item-title"><%= item.item %></h1>
-                    <p class="description">• Farm-Fresh Ingredients <br>• Organic and Pesticide-Free <br>• Protein-rich legumes</p>
-                    <p class="price">Each Item Price: $<%= item.priceRange %></p>
-                    <p class="quantity">Quantity Available: <%= item.quantity %></p>
-                    <p class="grand-total">Grand Total: $<%= item.priceRange * item.quantity %></p>
-                    <p class="status">Available</p>
-                    <button class="details-btn" onclick="window.location.href='/item/<%= item._id %>'">Details</button>
 
-                </div>
-            </div>
-        <% }); %>
+    <div class="item-card">
+        <img src="https://media.istockphoto.com/id/1448794844/photo/fresh-vegetables-for-sale-on-market-stall.jpg?s=612x612&w=0&k=20&c=9F7lETbfTqbaPZi-loW3eCuI6pbEByBCTty9WejCdhQ=" alt="Farm Fresh Vegetables">
+        <div class="item-details">
+            <h2>Farm Fresh Vegetables</h2>
+            <p><strong>Location:</strong> 123 Organic Lane, Green Valley</p>
+            <p><strong>Description:</strong> Freshly harvested vegetables, packed with nutrients.</p>
+            <p class="item-price"><strong>Each Item Price:</strong> $20</p>
+            <p><strong>Quantity Available:</strong> 50</p>
+            <p class="available">Available</p>
+            <button class="details-btn" >Details</button>
+        </div>
     </div>
+
+    <div class="item-card">
+        <img src="https://content.jdmagicbox.com/v2/comp/goa/h6/0832px832.x832.231207203438.e6h6/catalogue/fresh-farm-vegetables-sangolda-goa-fruit-vendors-8yz5yxoih4.jpg" alt="Fresh Organic Fruits">
+        <div class="item-details">
+            <h2>Fresh Organic Fruits</h2>
+            <p><strong>Location:</strong> 456 Nature Ave, Fruit Town</p>
+            <p><strong>Description:</strong> Sweet and juicy organic fruits directly from the farm.</p>
+            <p class="item-price"><strong>Each Item Price:</strong> $15</p>
+            <p><strong>Quantity Available:</strong> 30</p>
+            <p class="available">Available</p>
+            <button class="details-btn" >Details</button>
+        </div>
+    </div>
+
+    <!-- Add more item cards as needed -->
+
 </body>
- <script>
-        // Toggle menu function for mobile responsiveness
-        function toggleMenu() {
-            const navbar = document.querySelector('.navbar');
-            navbar.classList.toggle('active');
-        }
-    </script>
 </html>
