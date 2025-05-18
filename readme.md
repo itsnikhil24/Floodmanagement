@@ -1,3 +1,10 @@
+## Contributors
+
+- [Nikhil Sharma](https://github.com/itsnikhil24/) - Project Setup, Backend Development
+- [Ambika Kashyap](https://github.com/AMBIKAKAS/) - Frontend Design and Implementation
+
+
+
 ## To execute this application follow the mentioned steps below :
 
 Step 1: Git clone this repository using  this command : git clone https://github.com/itsnikhil24/Floodmanagement.git
