@@ -1,7 +1,7 @@
 ## Contributors
 
 - [Nikhil Sharma](https://github.com/itsnikhil24/) - Project Setup, Backend Development
-- [Ambika Kashyap](https://github.com/AMBIKAKAS/) - Frontend Design and Implementation
+- [Ambika Kashyap](https://github.com/AMBIKAKAS/) - Frontend Design And Implementation
 
 
 
