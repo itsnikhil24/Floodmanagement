@@ -15,6 +15,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import ejs from 'ejs';
 import { fileURLToPath } from 'url';
+import { supabase } from "./supabaseClient.js";
 dotenv.config();
 
 const app = express();
@@ -130,42 +131,54 @@ app.post("/chatbot", isloggedIn, async (req, res) => {
 
 // Interaction route with file upload and item creation
 app.post("/interaction", isloggedIn, upload.single("picture"), async (req, res) => {
-    if (!req.file) return res.status(400).send("No file uploaded.");
-
-    const readableFileStream = new Readable();
-    readableFileStream.push(req.file.buffer);
-    readableFileStream.push(null);
-
     try {
-        const uploadStream = bucket.openUploadStream(req.file.originalname, { contentType: req.file.mimetype });
 
-        readableFileStream.pipe(uploadStream)
-            .on('finish', async () => {
-                const newItem = new Item({
-                    name: req.body.name,
-                    phone_number: req.body.phone,
-                    address: req.body.address,
-                    item: req.body.item,
-                    quantity: req.body.quantity,
-                    priceRange: req.body['price-range'],
-                    imagePath: uploadStream.id.toString()
-                });
+        if (!req.file) {
+            return res.status(400).send("No file uploaded");
+        }
 
-                await newItem.save();
-                await user.findOneAndUpdate(
-                    { phone_number: req.body.phone },
-                    { $push: { posts: newItem._id } },
-                    { new: true }
-                );
-                res.redirect("/items");
-            })
-            .on('error', (err) => {
-                console.error("File upload error:", err);
-                res.status(500).json({ message: 'Error uploading file' });
+        const fileName = `${Date.now()}-${req.file.originalname}`;
+
+        const { data, error } = await supabase.storage
+            .from("marketplace")
+            .upload(fileName, req.file.buffer, {
+                contentType: req.file.mimetype
             });
+
+        if (error) {
+            console.error(error);
+            return res.status(500).send("Upload failed");
+        }
+
+        const { data: publicUrlData } = supabase.storage
+            .from("marketplace")
+            .getPublicUrl(fileName);
+        const imageUrl = publicUrlData.publicUrl;
+
+
+        const newItem = new Item({
+            name: req.body.name,
+            phone_number: req.body.phone,
+            address: req.body.address,
+            item: req.body.item,
+            quantity: req.body.quantity,
+            priceRange: req.body["price-range"],
+            imagePath: imageUrl
+        });
+
+        await newItem.save();
+
+        await user.findOneAndUpdate(
+            { phone_number: req.body.phone },
+            { $push: { posts: newItem._id } },
+            { new: true }
+        );
+
+        res.redirect("/items");
+
     } catch (error) {
-        console.error("Error uploading data:", error);
-        res.status(500).send("Error uploading data");
+        console.error(error);
+        res.status(500).send("Error uploading item");
     }
 });
 

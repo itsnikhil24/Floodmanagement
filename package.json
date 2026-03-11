@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "main": "index.mjs",
   "scripts": {
-   "start": "node index.mjs"
+    "start": "node index.mjs"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "@supabase/supabase-js": "^2.99.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "bson": "^6.9.0",
