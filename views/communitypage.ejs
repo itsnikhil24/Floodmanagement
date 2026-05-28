@@ -3,51 +3,554 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flood Aid Management for Farmers</title>
-  <link rel="stylesheet" href="stylesheets/community.css">
+  <title>Flood Aid Marketplace — Sell Your Items</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ── BASE & VARIABLES ── */
+    :root {
+      --green-deep: #0d3d2b;
+      --green-mid: #1a6b49;
+      --green-light: #2d9e6e;
+      --green-pale: #e4f4ed;
+      --green-bg: #f5fbf8;
+      --text-dark: #1a1a18;
+      --text-mid: #4a5046;
+      --white: #ffffff;
+      --nav-h: 72px; /* Added missing navbar height variable */
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--green-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      background: rgba(250,248,242,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(45,158,110,0.12);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--green-mid);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-icon svg {
+      width: 22px; height: 22px; fill: white;
+    }
+
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--green-deep);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-center {
+      position: relative;
+    }
+
+    .dropdown { position: relative; }
+
+    .dropbtn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: transparent;
+      border: 1.5px solid rgba(45,158,110,0.3);
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--green-mid);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .dropbtn:hover {
+      background: var(--green-pale);
+      border-color: var(--green-light);
+    }
+
+    .dropbtn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; transition: transform 0.25s; }
+    .dropdown:hover .dropbtn svg { transform: rotate(180deg); }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      border: 1px solid rgba(45,158,110,0.15);
+      border-radius: 16px;
+      min-width: 220px;
+      box-shadow: 0 20px 60px rgba(13,61,43,0.12);
+      padding: 8px;
+      animation: dropIn 0.2s ease;
+    }
+
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .dropdown:hover .dropdown-content { display: block; }
+
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      color: var(--text-mid);
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--green-pale);
+      color: var(--green-deep);
+    }
+
+    .dropdown-content a span.dd-icon {
+      width: 28px; height: 28px;
+      background: var(--green-pale);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+
+    .btn-ghost {
+      padding: 9px 20px;
+      background: transparent;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      border-radius: 100px;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover { background: var(--green-pale); color: var(--green-deep); }
+
+    .btn-solid {
+      padding: 9px 22px;
+      background: var(--green-deep);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+
+    .btn-solid:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    /* ── ANIMATED BACKGROUND BLOBS ── */
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      filter: blur(80px);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 12s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      top: -10%; left: -10%;
+      width: 50vw; height: 50vw;
+      background: #c8e6d4;
+    }
+
+    .blob-2 {
+      bottom: -15%; right: -5%;
+      width: 45vw; height: 45vw;
+      background: #d4eaf7;
+      animation-delay: -4s;
+      animation-duration: 15s;
+    }
+
+    .blob-3 {
+      top: 40%; left: 60%;
+      width: 30vw; height: 30vw;
+      background: #e4f4ed;
+      animation-delay: -8s;
+      animation-duration: 10s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -50px) scale(1.1); }
+    }
+
+    /* ── HEADER SECTION ── */
+    .header-section {
+      text-align: center;
+      padding: 80px 20px 40px;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto; /* Centered content */
+    }
+
+    .header-section h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--green-deep);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .header-section p {
+      color: var(--text-mid);
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+
+    /* ── FORM CONTAINER ── */
+    .form-container {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(13, 61, 43, 0.08);
+      width: 100%;
+      max-width: 700px;
+      padding: 40px 50px;
+      margin: 0 auto 80px auto; /* Centered with bottom margin */
+      position: relative;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--green-pale);
+    }
+
+    .form-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--green-deep);
+    }
+
+    .see-posts-btn {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--green-light);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .see-posts-btn:hover {
+      color: var(--green-deep);
+    }
+
+    /* ── FORM GRID & INPUTS ── */
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--green-deep);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid rgba(45, 158, 110, 0.2);
+      border-radius: 12px;
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a0a69d;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--green-light);
+      box-shadow: 0 0 0 4px var(--green-pale);
+      background: var(--white);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Custom File Input */
+    .file-upload-wrapper {
+      position: relative;
+      border: 2px dashed rgba(45, 158, 110, 0.3);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      background: #fafcfb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .file-upload-wrapper:hover {
+      background: var(--green-pale);
+      border-color: var(--green-light);
+    }
+
+    .file-upload-wrapper input[type="file"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-upload-text {
+      color: var(--green-mid);
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-upload-text svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 16px;
+      background: var(--green-deep);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(13, 61, 43, 0.2);
+    }
+
+    .submit-btn:hover {
+      background: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(13, 61, 43, 0.3);
+    }
+
+    /* ── RESPONSIVE DESIGN ── */
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 30px 20px;
+        border-radius: 20px;
+        width: 90%;
+      }
+      form {
+        grid-template-columns: 1fr;
+      }
+      .form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-content">
-      <h1>Flood Aid Management</h1>
-      <p> An online marketplace for farmers during crisis situations.</p>
-      <a href="#form-section" class="sell-item-btn">Sell Your Item</a>
+  
+  <nav class="navbar">
+    <a href="/home" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6 2 3 7 3 12s3 7 9 10c6-3 9-5 9-10S18 2 12 2z" opacity="0.7"/>
+          <path d="M12 6v12M8 10c1-1.5 2.5-2 4-2s3 .5 4 2"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">FarmFloodAid</span>
+    </a>
+
+    <div class="nav-center">
+      <div class="dropdown">
+        <button class="dropbtn">
+          All Resources
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="dropdown-content">
+          <a href="/chatbot">
+            <span class="dd-icon">🤖</span>
+            ChatBot
+          </a>
+          <a href="/interaction">
+            <span class="dd-icon">🌾</span>
+            Community Interaction
+          </a>
+          <a href="/govtscheme">
+            <span class="dd-icon">🤝</span>
+            NGO's
+          </a>
+        </div>
+      </div>
     </div>
+
+    <div class="nav-right">
+      <a href="/items" class="btn-ghost">Marketplace</a>
+      <a href="#" class="btn-solid">Logout</a>
+    </div>
+  </nav>
+
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header class="header-section">
+    <h1>Flood Aid Marketplace</h1>
+    <p>A trusted community platform for farmers to buy, sell, and share essential resources during crisis recovery.</p>
   </header>
 
-  <section class="marketplace">
-    <h2>Marketplace for Farmers</h2>
-    <p>Fill out the form below to add your item to the marketplace.</p>
-  </section>
-
   <div class="form-container" id="form-section">
-    <h2>Sell Your Item</h2>
+    <div class="form-header">
+      <h2>List an Item</h2>
+      <a href="/items" class="see-posts-btn">
+        View Marketplace 
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
     <form action="/interaction" method="POST" enctype="multipart/form-data">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" placeholder="Your Name" required>
       
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="E.g. Rajesh Kumar" required>
+      </div>
       
-      <label for="address">Address:</label>
-      <textarea id="address" name="address" placeholder="Your Address" required></textarea>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required>
+      </div>
       
-      <label for="item">Item to be Sold:</label>
-      <input type="text" id="item" name="item" placeholder="Item Name" required>
+      <div class="form-group full-width">
+        <label for="address">Pickup Address</label>
+        <textarea id="address" name="address" placeholder="Enter the full location where the item can be picked up..." required></textarea>
+      </div>
       
-      <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required>
+      <div class="form-group full-width">
+        <label for="item">Item to be Sold</label>
+        <input type="text" id="item" name="item" placeholder="E.g. Surplus Wheat, Water Pump, Tractor Rental" required>
+      </div>
       
-      <label for="price-range">Price Range:</label>
-      <input type="text" id="price-range" name="price-range" placeholder="Enter Price Range" required>
+      <div class="form-group">
+        <label for="quantity">Quantity (kg/units)</label>
+        <input type="number" id="quantity" name="quantity" placeholder="E.g. 50" min="1" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="price-range">Expected Price (₹)</label>
+        <input type="text" id="price-range" name="price-range" placeholder="E.g. ₹1500 - ₹2000" required>
+      </div>
 
-      <label for="picture">Picture of Item:</label>
-      <input type="file" id="picture" name="picture" accept="image/*" required>
+      <div class="form-group full-width">
+        <label for="picture">Item Photo</label>
+        <div class="file-upload-wrapper">
+          <input type="file" id="picture" name="picture" accept="image/*" required>
+          <div class="file-upload-text">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            <span>Click to upload or drag & drop an image</span>
+          </div>
+        </div>
+      </div>
       
-      <button type="submit">Submit</button>
+      <button type="submit" class="submit-btn">Publish Listing</button>
     </form>
-
-    <a href="/items" class="see-posts-btn">See All Posts</a>
   </div>
+
 </body>
 </html>

@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import bodyParser from 'body-parser';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import multer from "multer";
 import mongoose from "mongoose";
 import Item from './models/model.mjs';
@@ -116,13 +116,18 @@ app.post('/login', async (req, res) => {
 
 // Chatbot route with GoogleGenerativeAI
 app.post("/chatbot", isloggedIn, async (req, res) => {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+   
+    const ai = new GoogleGenAI({ apiKey: apiKey }); 
 
     try {
-        const result = await model.generateContent(req.body.query);
-        const responseText = await result.response.text();
-        res.send(responseText);
+       
+        const response = await ai.models.generateContent({
+            model: "gemini-3.5-flash", 
+            contents: req.body.query
+        });
+        
+        
+        res.send(response.text);
     } catch (error) {
         console.error("Error generating AI response:", error);
         res.status(500).send("An error occurred with the AI service.");
