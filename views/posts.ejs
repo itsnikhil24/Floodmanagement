@@ -1,175 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marketplace Ads</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(115deg, #d6e3f7, #efefef);
-    padding: 0;
-    margin: 0;
-}
-
-.header {
-    background: linear-gradient(135deg, #360635, #0e0752);
-    color: white;
-    text-align: center;
-    padding: 30px;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 32px;
-}
-
-.header p {
-    margin: 5px 0;
-    font-size: 20px;
-}
-
-.nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #0c0c0c;
-}
-
-.nav a {
-    color: white;
-    text-decoration: none;
-    margin-right: 20px;
-    font-size: 18px;
-}
-
-.nav a:hover {
-    text-decoration: underline;
-}
-
-.container {
-    width: 90%;
-    margin: auto;
-}
-
-.item-card {
-    max-width: 700px;
-    margin: 20px auto;
-    background: #fdfdfd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex;
-    padding: 20px;
-}
-
-.item-card img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 20px;
-}
-
-.item-details {
-    flex: 1;
-}
-
-.item-card h2 {
-    font-size: 24px;
-}
-
-.item-card p {
-    font-size: 16px;
-    color: #666;
-}
-
-.item-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4a86e8;
-}
-
-.available {
-    font-weight: bold;
-}
-
-.details-btn {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.details-btn:hover {
-    background-color: #555;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace — FarmFloodAid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../stylesheets/post.css">
 </head>
-
 <body>
 
-<div class="nav">
-    <a href="#">My Store</a>
-    <div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ── NAVBAR (identical to homepage) ── -->
+  <nav class="navbar">
+    <a href="/home" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6 2 3 7 3 12s3 7 9 10c6-3 9-5 9-10S18 2 12 2z" opacity="0.7"/>
+          <path d="M12 6v12M8 10c1-1.5 2.5-2 4-2s3 .5 4 2"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">FarmFloodAid</span>
+    </a>
+
+    <div class="nav-center">
+      <div class="dropdown">
+        <button class="dropbtn">
+          All Resources
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="dropdown-content">
+          <a href="/chatbot"><span class="dd-icon">🤖</span>ChatBot</a>
+          <a href="/interaction"><span class="dd-icon">🌾</span>Community Interaction</a>
+          <a href="/govtscheme"><span class="dd-icon">🤝</span>NGO's</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <a href="/items" class="btn-ghost active">Marketplace</a>
+      <a href="/logout" class="btn-solid">Logout</a>
+    </div>
+  </nav>
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="breadcrumb">
         <a href="/home">Home</a>
-        <a href="/items">Shop</a>
-        <a href="#">About</a>
-        <a href="/logout">Logout</a>
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        Marketplace
+      </div>
+      <h1>Community <span>Marketplace</span></h1>
+      <p>Fresh produce &amp; goods posted directly by farmers in your area</p>
     </div>
-</div>
+    <div class="page-header-right">
+      <a href="#" class="my-store-btn">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        My Store
+      </a>
+    </div>
+  </div>
 
-<div class="header">
-    <h1>Marketplace Ads</h1>
-    <p>Explore items posted by the community</p>
-</div>
+  <!-- ── STATS STRIP ── -->
+  <div class="stats-strip">
+    <div class="stat-pill"><span class="pip"></span> <strong>Live</strong> listings available</div>
+    <div class="stat-pill"><span class="pip gold"></span> Verified <strong>local farmers</strong></div>
+    <div class="stat-pill">🌾 Flood-recovery supported</div>
+  </div>
 
-<div class="container">
+  <!-- ── ITEMS ── -->
+  <section class="items-section">
 
-<% if(items.length === 0){ %>
+    <% if(items.length === 0){ %>
+    <div class="empty-state">
+      <div class="empty-icon">🌾</div>
+      <h2>No listings yet</h2>
+      <p>Check back soon — farmers are adding items regularly.</p>
+    </div>
+    <% } %>
 
-<h2 style="text-align:center">No items available</h2>
+    <div class="items-grid">
+      <% items.forEach(function(item){ %>
+      <div class="item-card">
 
-<% } %>
+        <div class="card-img-wrap">
+          <img src="<%= item.imagePath %>" alt="<%= item.item %>">
+          <div class="card-img-overlay"></div>
+          <div class="avail-badge"><span class="dot"></span> Available</div>
+          <div class="card-price-tag">$<%= item.priceRange %> / unit</div>
+        </div>
 
-<% items.forEach(function(item){ %>
+        <div class="card-body">
+          <h2 class="card-title"><%= item.item %></h2>
 
-<div class="item-card">
+          <div class="card-meta">
+            <div class="meta-row">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span><strong>Seller:</strong> <%= item.name %></span>
+            </div>
+            <div class="meta-row">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              <span><strong>Phone:</strong> <%= item.phone_number %></span>
+            </div>
+            <div class="meta-row">
+              <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span><strong>Location:</strong> <%= item.address %></span>
+            </div>
+          </div>
 
-    <!-- Supabase Image URL -->
-    <img src="<%= item.imagePath %>" alt="Item Image">
+          <div class="qty-row">
+            <span class="qty-label">Quantity Available</span>
+            <span class="qty-val"><%= item.quantity %> units</span>
+          </div>
 
-    <div class="item-details">
+          <a href="/item/<%= item._id %>" class="details-btn">
+            View Details
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
 
-        <h2><%= item.item %></h2>
-
-        <p><strong>Seller:</strong> <%= item.name %></p>
-
-        <p><strong>Phone:</strong> <%= item.phone_number %></p>
-
-        <p><strong>Location:</strong> <%= item.address %></p>
-
-        <p class="item-price">
-            Price Range: <%= item.priceRange %>
-        </p>
-
-        <p><strong>Quantity:</strong> <%= item.quantity %></p>
-
-        <p class="available">Available</p>
-
-        <a href="/item/<%= item._id %>">
-            <button class="details-btn">Details</button>
-        </a>
-
+      </div>
+      <% }) %>
     </div>
 
-</div>
+  </section>
 
-<% }) %>
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2024 FarmFloodAid. All Rights Reserved.</span>
+      <span>Built by <a href="#">Ambika &amp; Nikhil</a> · Powered by FarmFloodAid 🌾</span>
+    </div>
+  </footer>
 
-</div>
+  <script>
+    /* ── ANIMATED BACKGROUND (same blobs + particles as homepage) ── */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
 
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const blobs = Array.from({ length: 6 }, (_, i) => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: 180 + Math.random() * 200,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      hue: i < 3 ? 145 + Math.random() * 20 : 200 + Math.random() * 25,
+      sat: 40 + Math.random() * 20,
+      light: 80 + Math.random() * 12,
+      phase: Math.random() * Math.PI * 2
+    }));
+
+    const particles = Array.from({ length: 28 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: 1.5 + Math.random() * 2.5,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: -0.2 - Math.random() * 0.4,
+      alpha: 0.2 + Math.random() * 0.4,
+      green: Math.random() > 0.5
+    }));
+
+    let t = 0;
+
+    function drawLeaf(x, y, r, alpha) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(t * 0.5);
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = '#2d9e6e';
+      ctx.beginPath();
+      ctx.moveTo(0, -r * 2);
+      ctx.bezierCurveTo(r * 1.5, -r, r * 1.5, r, 0, r * 2);
+      ctx.bezierCurveTo(-r * 1.5, r, -r * 1.5, -r, 0, -r * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      t += 0.005;
+
+      blobs.forEach(b => {
+        b.x += b.vx; b.y += b.vy;
+        if (b.x < -b.r) b.x = canvas.width + b.r;
+        if (b.x > canvas.width + b.r) b.x = -b.r;
+        if (b.y < -b.r) b.y = canvas.height + b.r;
+        if (b.y > canvas.height + b.r) b.y = -b.r;
+
+        const pulse = 1 + 0.06 * Math.sin(t + b.phase);
+        const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r * pulse);
+        grad.addColorStop(0, `hsla(${b.hue},${b.sat}%,${b.light}%,0.18)`);
+        grad.addColorStop(1, `hsla(${b.hue},${b.sat}%,${b.light}%,0)`);
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      });
+
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+        if (p.x < -10) p.x = canvas.width + 10;
+        if (p.x > canvas.width + 10) p.x = -10;
+
+        if (!p.green) {
+          drawLeaf(p.x, p.y, p.r, p.alpha * 0.6);
+        } else {
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = '#3a8fc4';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
 </body>
 </html>

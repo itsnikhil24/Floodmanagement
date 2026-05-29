@@ -1,72 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(115deg, #b8c9e1, #cfd6d9);
-            padding: 20px;
-        }
-        
-        .details-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fdfdfd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Details — FarmFloodAid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .details-container img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            margin-bottom: 20px;
-        }
+    :root {
+      --bg:        #0e1a13;
+      --surface:   #152018;
+      --card:      #1c2b20;
+      --border:    rgba(120,200,140,0.12);
+      --green:     #5cc97a;
+      --green-dim: #2d7a46;
+      --gold:      #d4a853;
+      --gold-dim:  #8a6830;
+      --cream:     #f0ead8;
+      --muted:     rgba(240,234,216,0.45);
+      --text:      #f0ead8;
+      --radius:    18px;
+    }
 
-        .details-container h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+    html { scroll-behavior: smooth; }
 
-        .details-container p {
-            font-size: 16px;
-            color: #666;
-        }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Outfit', sans-serif;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        .back-btn {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 20px;
-        }
+    /* ── ANIMATED BACKGROUND ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        .back-btn:hover {
-            background-color: #555;
-        }
-    </style>
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    /* ── CARD ── */
+    .card-wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 760px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(92,201,122,0.06),
+        0 40px 120px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+      animation: cardIn 0.9s cubic-bezier(.22,.68,0,1.1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── LEFT: IMAGE PANEL ── */
+    .img-panel {
+      position: relative;
+      min-height: 480px;
+      overflow: hidden;
+    }
+
+    .img-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(.22,.68,0,1.1);
+    }
+
+    .card-wrap:hover .img-panel img { transform: scale(1.04); }
+
+    /* Image gradient overlay */
+    .img-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(14,26,19,0.15) 0%,
+        transparent 50%,
+        rgba(14,26,19,0.55) 100%
+      );
+    }
+
+    /* Category chip on image */
+    .img-chip {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(14,26,19,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(92,201,122,0.25);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      animation: fadeDown 0.6s 0.4s ease both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .img-chip .dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-g 2s infinite;
+    }
+
+    @keyframes pulse-g {
+      0%,100% { box-shadow: 0 0 0 0 rgba(92,201,122,0.5); }
+      50%      { box-shadow: 0 0 0 5px rgba(92,201,122,0); }
+    }
+
+    /* Price badge on image */
+    .img-price-badge {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 2;
+      padding: 10px 16px;
+      background: var(--gold);
+      border-radius: 14px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--bg);
+      line-height: 1;
+      box-shadow: 0 8px 24px rgba(212,168,83,0.35);
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+
+    .img-price-badge small {
+      font-size: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      display: block;
+      opacity: 0.7;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RIGHT: CONTENT PANEL ── */
+    .content-panel {
+      padding: 40px 36px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative corner accent */
+    .content-panel::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(92,201,122,0.07) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Name */
+    .item-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+      animation: fadeUp 0.6s 0.2s ease both;
+      opacity: 0;
+    }
+
+    .item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: var(--cream);
+      margin-bottom: 6px;
+      animation: fadeUp 0.6s 0.3s ease both;
+      opacity: 0;
+    }
+
+    .item-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.35s ease both;
+      opacity: 0;
+    }
+
+    .item-location svg { width: 13px; height: 13px; stroke: var(--green-dim); fill: none; flex-shrink: 0; }
+
+    /* Divider */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 24px;
+      animation: scaleX 0.5s 0.5s ease both;
+      transform-origin: left;
+      opacity: 0;
+    }
+
+    @keyframes scaleX {
+      from { opacity: 0; transform: scaleX(0); }
+      to   { opacity: 1; transform: scaleX(1); }
+    }
+
+    /* Description */
+    .desc-block {
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.45s ease both;
+      opacity: 0;
+    }
+
+    .block-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .desc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 400;
+      color: rgba(240,234,216,0.7);
+      background: rgba(92,201,122,0.05);
+      transition: all 0.2s;
+    }
+
+    .tag:hover {
+      background: rgba(92,201,122,0.12);
+      border-color: rgba(92,201,122,0.3);
+      color: var(--cream);
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.5s ease both;
+      opacity: 0;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .stat-box:hover {
+      background: rgba(92,201,122,0.05);
+      border-color: rgba(92,201,122,0.2);
+    }
+
+    .stat-box .s-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-box .s-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+
+    .stat-box .s-val.highlight { color: var(--gold); }
+
+    /* Total row */
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(92,201,122,0.08), rgba(212,168,83,0.06));
+      border: 1px solid rgba(92,201,122,0.15);
+      border-radius: 14px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.55s ease both;
+      opacity: 0;
+    }
+
+    .total-row .t-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .total-row .t-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: -0.5px;
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px 24px;
+      background: var(--green);
+      border: none;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bg);
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 28px rgba(92,201,122,0.22);
+      animation: fadeUp 0.6s 0.6s ease both;
+      opacity: 0;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #6ed98c;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(92,201,122,0.32);
+    }
+
+    .back-btn:active { transform: translateY(0); }
+
+    .back-btn svg { width: 16px; height: 16px; stroke: var(--bg); fill: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .card-wrap { grid-template-columns: 1fr; max-width: 420px; }
+      .img-panel { min-height: 260px; }
+      .content-panel { padding: 28px 24px 28px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="details-container">
-    <img src="/uploads/<%= item.imagePath %>" alt="<%= item.name %>">
-    <h2><%= item.item %></h2>
-    <p><strong>Location:</strong> <%= item.address %></p>
-    <p><strong>Description:</strong> Farm-Fresh Ingredients, Authentic Local Flavors, Nutrient-Rich and Tasty, Organic and Pesticide-Free</p>
-    <p><strong>Each Item Price:</strong> $<%= item.priceRange %></p>
-    <p><strong>Quantity Available:</strong> <%= item.quantity %></p>
-    <p><strong>Grand Total:</strong> $<%= item.priceRange * item.quantity %></p>
+  <canvas id="bg-canvas"></canvas>
 
-    <button class="back-btn" onclick="window.location.href='/items'">Back to List</button>
-</div>
+  <div class="card-wrap">
 
+    <!-- LEFT: Image -->
+    <div class="img-panel">
+      <div class="img-chip"><span class="dot"></span>Farm Fresh</div>
+      <img src="<%= item.imagePath %>" alt="<%= item.name %>" style=" object-fit: cover;">
+      <div class="img-price-badge">
+        <small>Per Item</small>
+        
+        $<%= item.priceRange %>
+      </div>
+    </div>
+
+    <!-- RIGHT: Content -->
+    <div class="content-panel">
+
+      <div class="item-label">Marketplace Listing</div>
+      <h1 class="item-name"><%= item.item %></h1>
+
+      <div class="item-location">
+        <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        <%= item.address %>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="desc-block">
+        <div class="block-label">Highlights</div>
+        <div class="desc-tags">
+          <span class="tag">🌾 Farm-Fresh</span>
+          <span class="tag">🌿 Organic</span>
+          <span class="tag">🚫 Pesticide-Free</span>
+          <span class="tag">💚 Nutrient-Rich</span>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="s-label">Unit Price</div>
+          <div class="s-val highlight">$<%= item.priceRange %></div>
+        </div>
+        <div class="stat-box">
+          <div class="s-label">Qty Available</div>
+          <div class="s-val"><%= item.quantity %></div>
+        </div>
+      </div>
+
+      <div class="total-row">
+        <span class="t-label">Grand Total</span>
+        <span class="t-val">$<%= item.priceRange * item.quantity %></span>
+      </div>
+
+      <button class="back-btn" onclick="window.location.href='/items'">
+        <svg viewBox="0 0 24 24" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to Marketplace
+      </button>
+
+    </div>
+  </div>
+
+  <script>
+    /* ── CANVAS BACKGROUND: Floating orbs + grid lines ── */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Orbs
+    const orbs = Array.from({ length: 7 }, (_, i) => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: 120 + Math.random() * 180,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      hue: i < 4 ? 140 + Math.random() * 25 : 42 + Math.random() * 15,
+      phase: Math.random() * Math.PI * 2
+    }));
+
+    // Floating particles
+    const sparks = Array.from({ length: 30 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: 0.8 + Math.random() * 1.8,
+      speed: 0.15 + Math.random() * 0.35,
+      alpha: 0.15 + Math.random() * 0.35,
+      green: Math.random() > 0.5
+    }));
+
+    let t = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      t += 0.007;
+
+      // Background gradient
+      const bg = ctx.createRadialGradient(
+        canvas.width * 0.3, canvas.height * 0.4, 0,
+        canvas.width * 0.3, canvas.height * 0.4, canvas.width * 0.8
+      );
+      bg.addColorStop(0, 'rgba(18,32,22,1)');
+      bg.addColorStop(1, 'rgba(10,16,13,1)');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Subtle grid
+      ctx.strokeStyle = 'rgba(92,201,122,0.025)';
+      ctx.lineWidth = 1;
+      const gridSize = 60;
+      for (let x = 0; x < canvas.width; x += gridSize) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += gridSize) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      // Orbs
+      orbs.forEach(o => {
+        o.x += o.vx; o.y += o.vy;
+        if (o.x < -o.r) o.x = canvas.width + o.r;
+        if (o.x > canvas.width + o.r) o.x = -o.r;
+        if (o.y < -o.r) o.y = canvas.height + o.r;
+        if (o.y > canvas.height + o.r) o.y = -o.r;
+
+        const pulse = 1 + 0.08 * Math.sin(t + o.phase);
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * pulse);
+        const alpha = o.hue < 100 ? '0.12' : '0.09';
+        g.addColorStop(0, `hsla(${o.hue},55%,40%,${alpha})`);
+        g.addColorStop(1, `hsla(${o.hue},55%,40%,0)`);
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.r * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+      });
+
+      // Sparks
+      sparks.forEach(p => {
+        p.y -= p.speed;
+        if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.green ? '#5cc97a' : '#d4a853';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    console.log(item.imagePath );
+  </script>
 </body>
 </html>

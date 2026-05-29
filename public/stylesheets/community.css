@@ -1,100 +1,432 @@
-/* Reset some basic styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(90deg, rgb(241, 239, 241) 50%, rgb(211, 213, 216) 100%); /* Gradient background */
-}
+/* ── BASE & VARIABLES ── */
+    :root {
+      --green-deep: #0d3d2b;
+      --green-mid: #1a6b49;
+      --green-light: #2d9e6e;
+      --green-pale: #e4f4ed;
+      --green-bg: #f5fbf8;
+      --text-dark: #1a1a18;
+      --text-mid: #4a5046;
+      --white: #ffffff;
+      --nav-h: 72px; /* Added missing navbar height variable */
+    }
 
-/* Header Section */
-.header {
-    background: linear-gradient(90deg, rgb(68, 25, 25) 0%, rgb(16, 38, 77) 100%);
-    color: white;
-    padding: 50px 20px;
-    text-align: center;
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.header h1 {
-    font-size: 36px;
-    margin: 0;
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--green-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
 
-.header p {
-    font-size: 18px;
-    margin: 10px 0 20px 0;
-}
+    /* ── NAVBAR ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      background: rgba(250,248,242,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(45,158,110,0.12);
+    }
 
-.sell-item-btn {
-    background-color: #3b67b3; /* Dark blue button */
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
 
-.sell-item-btn:hover {
-    background-color: #2fc2a2; /* Green on hover */
-}
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--green-mid);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* Marketplace Section */
-.marketplace {
-    text-align: center;
-    margin: 40px 0;
-}
+    .nav-logo-icon svg {
+      width: 22px; height: 22px; fill: white;
+    }
 
-.marketplace h2 {
-    font-size: 28px;
-    color: #333;
-}
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--green-deep);
+      letter-spacing: -0.3px;
+    }
 
-/* Form Container */
-.form-container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
-}
+    .nav-center {
+      position: relative;
+    }
 
-.form-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+    .dropdown { position: relative; }
 
-.form-container label {
-    display: block;
-    margin: 10px 0 5px;
-}
+    .dropbtn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: transparent;
+      border: 1.5px solid rgba(45,158,110,0.3);
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--green-mid);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
 
-.form-container input, .form-container textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    .dropbtn:hover {
+      background: var(--green-pale);
+      border-color: var(--green-light);
+    }
 
-.form-container button {
-    background-color: #7d75d9; /* Button color */
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.3s;
-}
+    .dropbtn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; transition: transform 0.25s; }
+    .dropdown:hover .dropbtn svg { transform: rotate(180deg); }
 
-.form-container button:hover {
-    background-color: #3b67b3; /* Darker on hover */
-}
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      border: 1px solid rgba(45,158,110,0.15);
+      border-radius: 16px;
+      min-width: 220px;
+      box-shadow: 0 20px 60px rgba(13,61,43,0.12);
+      padding: 8px;
+      animation: dropIn 0.2s ease;
+    }
 
-/* See Posts Button */
-.see-posts-btn {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #3b67b3;
-    text-decoration: underline;
-}
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .dropdown:hover .dropdown-content { display: block; }
+
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      color: var(--text-mid);
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--green-pale);
+      color: var(--green-deep);
+    }
+
+    .dropdown-content a span.dd-icon {
+      width: 28px; height: 28px;
+      background: var(--green-pale);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+
+    .btn-ghost {
+      padding: 9px 20px;
+      background: transparent;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      border-radius: 100px;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover { background: var(--green-pale); color: var(--green-deep); }
+
+    .btn-solid {
+      padding: 9px 22px;
+      background: var(--green-deep);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+
+    .btn-solid:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    /* ── ANIMATED BACKGROUND BLOBS ── */
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      filter: blur(80px);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 12s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      top: -10%; left: -10%;
+      width: 50vw; height: 50vw;
+      background: #c8e6d4;
+    }
+
+    .blob-2 {
+      bottom: -15%; right: -5%;
+      width: 45vw; height: 45vw;
+      background: #d4eaf7;
+      animation-delay: -4s;
+      animation-duration: 15s;
+    }
+
+    .blob-3 {
+      top: 40%; left: 60%;
+      width: 30vw; height: 30vw;
+      background: #e4f4ed;
+      animation-delay: -8s;
+      animation-duration: 10s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -50px) scale(1.1); }
+    }
+
+    /* ── HEADER SECTION ── */
+    .header-section {
+      text-align: center;
+      padding: 80px 20px 40px;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto; /* Centered content */
+    }
+
+    .header-section h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--green-deep);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .header-section p {
+      color: var(--text-mid);
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+
+    /* ── FORM CONTAINER ── */
+    .form-container {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(13, 61, 43, 0.08);
+      width: 100%;
+      max-width: 700px;
+      padding: 40px 50px;
+      margin: 0 auto 80px auto; /* Centered with bottom margin */
+      position: relative;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--green-pale);
+    }
+
+    .form-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--green-deep);
+    }
+
+    .see-posts-btn {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--green-light);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .see-posts-btn:hover {
+      color: var(--green-deep);
+    }
+
+    /* ── FORM GRID & INPUTS ── */
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--green-deep);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid rgba(45, 158, 110, 0.2);
+      border-radius: 12px;
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a0a69d;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--green-light);
+      box-shadow: 0 0 0 4px var(--green-pale);
+      background: var(--white);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Custom File Input */
+    .file-upload-wrapper {
+      position: relative;
+      border: 2px dashed rgba(45, 158, 110, 0.3);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      background: #fafcfb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .file-upload-wrapper:hover {
+      background: var(--green-pale);
+      border-color: var(--green-light);
+    }
+
+    .file-upload-wrapper input[type="file"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-upload-text {
+      color: var(--green-mid);
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-upload-text svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 16px;
+      background: var(--green-deep);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(13, 61, 43, 0.2);
+    }
+
+    .submit-btn:hover {
+      background: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(13, 61, 43, 0.3);
+    }
+
+    /* ── RESPONSIVE DESIGN ── */
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 30px 20px;
+        border-radius: 20px;
+        width: 90%;
+      }
+      form {
+        grid-template-columns: 1fr;
+      }
+      .form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+    }
