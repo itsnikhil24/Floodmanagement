@@ -1,36 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HelpBot</title>
-    <link rel="stylesheet" href="stylesheets/chatbot.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FloodBot</title>
+  <link rel="stylesheet" href="/stylesheets/chatbot.css" />
 </head>
 <body>
-    <div class="container">
-        <header class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/interaction">Put items on MarketPlace</a></li>
-                    <li><a href="/items">MarketPlace</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                </ul>
-            </nav>
-        </header>
-        
-        <div class="chat-ui">
-            <h1 class="title">FloodBot</h1>
-            <div id="chat-container" class="chat-container"></div>
-            <div class="input-bar">
-                <form id="myForm" action="/chatbot" method="post">
-                    <input id="query" type="text" name="query" placeholder="Type your message..." required />
-                    <button type="submit">Send</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <script src="scripts/chatbot.js"></script>
+  <div class="app-shell">
+
+    <!-- ── Sidebar: conversation history ─────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Conversations</span>
+        <button class="new-chat-btn" id="newChatBtn" title="New conversation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          New chat
+        </button>
+      </div>
+      <ul class="conv-list" id="convList">
+        <li class="conv-empty">No conversations yet</li>
+      </ul>
+    </aside>
+
+    <!-- ── Main chat panel ───────────────────────────────────────── -->
+    <div class="main">
+
+      <header class="navbar">
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle history">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <nav>
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/interaction">Sell item</a></li>
+            <li><a href="/items">Marketplace</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="chat-ui">
+
+        <!-- Hero / empty state -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+              <path d="M12 16v-4M12 8h.01"/>
+            </svg>
+          </div>
+          <h1 class="empty-title">FloodBot</h1>
+          <p class="empty-sub">Ask about flood prevention, crop protection, drainage, or emergency steps.</p>
+          <div class="suggestion-chips">
+            <button class="chip" data-q="Water is entering my field, what do I do immediately?">
+              Water entering my field
+            </button>
+            <button class="chip" data-q="How do I protect my wheat crop from flooding?">
+              Protect wheat from flood
+            </button>
+            <button class="chip" data-q="What drainage system should I install?">
+              Drainage system advice
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat messages -->
+        <div id="chatContainer" class="chat-container" style="display:none;"></div>
+
+        <!-- Typing indicator (hidden by default) -->
+        <div class="typing-indicator" id="typingIndicator" style="display:none;">
+          <div class="typing-bubble">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <!-- Input bar -->
+        <div class="input-bar">
+          <form id="myForm">
+            <textarea
+              id="query"
+              name="query"
+              placeholder="Ask about flood safety or crop protection…"
+              rows="1"
+              required
+              autocomplete="off"
+            ></textarea>
+            <button type="submit" id="sendBtn" aria-label="Send">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </form>
+          <p class="input-hint">FloodBot gives practical advice only — always follow official emergency guidance.</p>
+        </div>
+
+      </div><!-- /.chat-ui -->
+    </div><!-- /.main -->
+  </div><!-- /.app-shell -->
+
+  <script src="/scripts/chatbot.js"></script>
 </body>
 </html>
