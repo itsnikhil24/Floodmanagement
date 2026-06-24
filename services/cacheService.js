@@ -27,11 +27,10 @@ export async function get(userId, query) {
     const data = await redis.get(key);
 
     if (data) {
-      // console.log(`[Cache HIT]  key=…${key.slice(-12)}`);
+      
       return data;   
     }
 
-    // console.log(`[Cache MISS] key=…${key.slice(-12)}`);
     return null;
   } catch (err) {
     console.error("[Cache get error]", err.message);

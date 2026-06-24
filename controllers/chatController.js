@@ -1,4 +1,3 @@
-
 import Conversation from "../models/Conversation.js";
 import { generateFloodAdvice, cache } from "../services/aiService.js";
 
@@ -10,20 +9,19 @@ function getUserId(req) {
   return null;
 }
 
-
 async function getOrCreateConversation(userId, conversationId) {
   if (conversationId) {
     const conv = await Conversation.findOne({ _id: conversationId, userId });
     if (!conv) {
-      const err = new Error("Conversation not found");
-      err.status = 404;
-      throw err;
+      console.warn(
+        `[getOrCreateConversation] conversationId=${conversationId} not found for userId=${userId}. Starting fresh.`
+      );
+      return new Conversation({ userId, messages: [] });
     }
     return conv;
   }
   return new Conversation({ userId, messages: [] });
 }
-
 
 export const chatbotResponse = async (req, res) => {
   try {
@@ -58,11 +56,17 @@ export const chatbotResponse = async (req, res) => {
       parsed = { summary: text, urgency: "low", steps: [], warning: null, followUp: [] };
     }
 
+
+    conversation.messages.push({ role: "user", text: query.trim() });
+
     if (!fromCache) {
-      conversation.messages.push({ role: "user",  text: query.trim() });
+      // Fresh Gemini response — save the AI reply too
       conversation.messages.push({ role: "model", text });
-      await conversation.save();
     }
+
+    // This is always called now — guarantees the document exists in MongoDB
+    // and the conversationId returned to the frontend is always valid.
+    await conversation.save();
 
     return res.status(200).json({
       conversationId: conversation._id,
@@ -75,7 +79,6 @@ export const chatbotResponse = async (req, res) => {
     return res.status(500).json({ error: "AI service error. Please try again." });
   }
 };
-
 
 export const getChatHistory = async (req, res) => {
   try {
@@ -109,7 +112,6 @@ export const getConversation = async (req, res) => {
   }
 };
 
-
 export const deleteConversation = async (req, res) => {
   try {
     const userId = getUserId(req);
@@ -126,7 +128,6 @@ export const deleteConversation = async (req, res) => {
     return res.status(500).json({ error: "Failed to delete conversation." });
   }
 };
-
 
 export const getCacheStats = async (req, res) => {
   try {

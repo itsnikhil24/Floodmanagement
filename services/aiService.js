@@ -82,18 +82,44 @@ function buildContents(history, newQuery) {
   return contents;
 }
 
-async function callGemini(history, query) {
-  const response = await ai.models.generateContent({
-    model: "gemini-3.5-flash",
-    contents: buildContents(history, query),
-    systemInstruction: SYSTEM_PROMPT,
-    generationConfig: {
-      responseMimeType: "application/json",
-      temperature: 0.3,
-      maxOutputTokens: 1024,
-    },
-  });
-  return response.text?.trim() || '{"error": "No response generated."}';
+async function callGemini(history, query, maxRetries = 3, initialDelayMs = 1000) {
+  let delay = initialDelayMs;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash", 
+        contents: buildContents(history, query),
+        systemInstruction: SYSTEM_PROMPT,
+        generationConfig: {
+          responseMimeType: "application/json",
+          temperature: 0.3,
+          maxOutputTokens: 1024,
+        },
+      });
+      return response.text?.trim() || '{"error": "No response generated."}';
+      
+    } catch (error) {
+      if (error.status === 503 || error.status === 429) {
+        console.warn(`[aiService] Gemini API busy (Attempt ${attempt}/${maxRetries}). Retrying in ${delay}ms...`);
+        
+        if (attempt === maxRetries) {
+          return JSON.stringify({
+            urgency: "low",
+            summary: "Our AI advisor is currently experiencing high traffic. Please try again in a few minutes.",
+            steps: ["Wait a few moments", "Resubmit your question"],
+            warning: null,
+            followUp: []
+          });
+        }
+        await new Promise(resolve => setTimeout(resolve, delay));
+   
+        delay *= 2; 
+      } else {
+        throw error;
+      }
+    }
+  }
 }
 
 export async function generateFloodAdvice(userId, query, history = []) {
