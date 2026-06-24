@@ -5,14 +5,17 @@
       "src": "index.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["views/**", "public/**"]
+        "includeFiles": [
+          "views/**",
+          "public/**"
+        ]
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.mjs"
+      "dest": "/index.js"
     }
   ]
 }
