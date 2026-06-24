@@ -4,20 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FloodBot</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/chatbot.css" />
 </head>
 <body>
 
   <div class="app-shell">
 
-    <!-- ── Sidebar: conversation history ─────────────────────────── -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <span class="sidebar-title">Conversations</span>
+        <span class="sidebar-title">Farm Flood Aid</span>
         <button class="new-chat-btn" id="newChatBtn" title="New conversation">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
           New chat
         </button>
@@ -27,18 +28,18 @@
       </ul>
     </aside>
 
-    <!-- ── Main chat panel ───────────────────────────────────────── -->
     <div class="main">
 
       <header class="navbar">
-        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle history">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        </button>
+        <div class="navbar-left">
+          <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle history">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+]
+            </svg>
+          </button>
+          
+        </div>
         <nav>
           <ul>
             <li><a href="/home">Home</a></li>
@@ -51,41 +52,30 @@
 
       <div class="chat-ui">
 
-        <!-- Hero / empty state -->
         <div class="empty-state" id="emptyState">
           <div class="empty-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M12 16v-4M12 8h.01"/>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
           </div>
           <h1 class="empty-title">FloodBot</h1>
-          <p class="empty-sub">Ask about flood prevention, crop protection, drainage, or emergency steps.</p>
+          <p class="empty-sub">Flood prevention, crop protection, drainage advice — ask anything.</p>
           <div class="suggestion-chips">
             <button class="chip" data-q="Water is entering my field, what do I do immediately?">
-              Water entering my field
+              🌊 Water entering my field
             </button>
             <button class="chip" data-q="How do I protect my wheat crop from flooding?">
-              Protect wheat from flood
+              🌾 Protect wheat from flood
             </button>
-            <button class="chip" data-q="What drainage system should I install?">
-              Drainage system advice
+            <button class="chip" data-q="What drainage system should I install to prevent flooding?">
+              🔧 Drainage system advice
             </button>
           </div>
         </div>
 
-        <!-- Chat messages -->
         <div id="chatContainer" class="chat-container" style="display:none;"></div>
 
-        <!-- Typing indicator (hidden by default) -->
-        <div class="typing-indicator" id="typingIndicator" style="display:none;">
-          <div class="typing-bubble">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-
-        <!-- Input bar -->
         <div class="input-bar">
           <form id="myForm">
             <textarea
@@ -97,7 +87,7 @@
               autocomplete="off"
             ></textarea>
             <button type="submit" id="sendBtn" aria-label="Send">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
                 <line x1="22" y1="2" x2="11" y2="13"/>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -107,10 +97,6 @@
           <p class="input-hint">FloodBot gives practical advice only — always follow official emergency guidance.</p>
         </div>
 
-      </div><!-- /.chat-ui -->
-    </div><!-- /.main -->
-  </div><!-- /.app-shell -->
-
-  <script src="/scripts/chatbot.js"></script>
+      </div></div></div><script src="/scripts/chatbot.js"></script>
 </body>
 </html>

@@ -24,7 +24,7 @@ export const connectDB = async () => {
       bucketName: "uploads",
     });
 
-    console.log("GridFS Bucket Initialized");
+  
   } catch (err) {
     console.error("MongoDB connection error:", err);
     process.exit(1);

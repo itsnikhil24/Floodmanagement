@@ -1,25 +1,16 @@
+
 import Conversation from "../models/Conversation.js";
-import {
-  generateFloodAdvice,
-  streamFloodAdvice,
-} from "../services/aiService.js";
+import { generateFloodAdvice, cache } from "../services/aiService.js";
 
 function getUserId(req) {
-  const user =req.user 
-    null;
-  if (user) {
-    return (user.userId || user.id)?.toString() ?? null;
-  }
-  
-
-  // JWT middlewares sometimes decode straight onto req
+  const user = req.user ?? null;
+  if (user) return (user.userId || user.id)?.toString() ?? null;
   if (req.userId) return req.userId.toString();
   if (req.id)     return req.id.toString();
-
   return null;
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 async function getOrCreateConversation(userId, conversationId) {
   if (conversationId) {
     const conv = await Conversation.findOne({ _id: conversationId, userId });
@@ -33,11 +24,10 @@ async function getOrCreateConversation(userId, conversationId) {
   return new Conversation({ userId, messages: [] });
 }
 
-// ─── POST /api/chat/message  (non-streaming) ──────────────────────────────────
+
 export const chatbotResponse = async (req, res) => {
   try {
     const userId = getUserId(req);
-
     if (!userId) {
       console.error("[chatbotResponse] Could not resolve userId. req.user =", req.user);
       return res.status(401).json({ error: "Unauthorized. Please log in again." });
@@ -48,11 +38,11 @@ export const chatbotResponse = async (req, res) => {
     if (!query || typeof query !== "string" || query.trim().length === 0) {
       return res.status(400).json({ error: "Query is required." });
     }
-    if (query.length > 500) {
+    if (query.trim().length > 500) {
       return res.status(400).json({ error: "Query must be under 500 characters." });
     }
 
-    const conversation = await getOrCreateConversation(userId, conversationId);
+    const conversation  = await getOrCreateConversation(userId, conversationId);
     const recentHistory = conversation.messages.slice(-10);
 
     const { text, fromCache } = await generateFloodAdvice(
@@ -65,11 +55,11 @@ export const chatbotResponse = async (req, res) => {
     try {
       parsed = JSON.parse(text);
     } catch {
-      parsed = { summary: text };
+      parsed = { summary: text, urgency: "low", steps: [], warning: null, followUp: [] };
     }
 
     if (!fromCache) {
-      conversation.messages.push({ role: "user", text: query.trim() });
+      conversation.messages.push({ role: "user",  text: query.trim() });
       conversation.messages.push({ role: "model", text });
       await conversation.save();
     }
@@ -86,69 +76,7 @@ export const chatbotResponse = async (req, res) => {
   }
 };
 
-// ─── POST /api/chat/stream  (SSE streaming) ───────────────────────────────────
-export const chatbotStreamResponse = async (req, res) => {
-  try {
-    const userId = getUserId(req);
 
-    if (!userId) {
-      console.error("[chatbotStreamResponse] Could not resolve userId. req.user =", req.user);
-      return res.status(401).json({ error: "Unauthorized. Please log in again." });
-    }
-
-    const { query, conversationId } = req.body;
-
-    if (!query || typeof query !== "string" || query.trim().length === 0) {
-      return res.status(400).json({ error: "Query is required." });
-    }
-    if (query.length > 500) {
-      return res.status(400).json({ error: "Query must be under 500 characters." });
-    }
-
-    // SSE headers — must be set before any write
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-    res.setHeader("X-Accel-Buffering", "no");
-    res.flushHeaders();
-
-    const conversation = await getOrCreateConversation(userId, conversationId);
-    const recentHistory = conversation.messages.slice(-10);
-
-    let fullResponseText = "";
-
-    // Intercept writes to capture the full streamed text for saving
-    const originalWrite = res.write.bind(res);
-    res.write = (data) => {
-      try {
-        const jsonStr = data.toString().replace(/^data: /, "").trim();
-        const parsed = JSON.parse(jsonStr);
-        if (parsed.chunk) fullResponseText += parsed.chunk;
-      } catch {
-        // ignore SSE control messages that aren't JSON
-      }
-      return originalWrite(data);
-    };
-
-    await streamFloodAdvice(userId, query.trim(), recentHistory, res);
-
-    if (fullResponseText) {
-      conversation.messages.push({ role: "user", text: query.trim() });
-      conversation.messages.push({ role: "model", text: fullResponseText });
-      await conversation.save();
-    }
-  } catch (error) {
-    console.error("[chatbotStreamResponse] Error:", error);
-    if (res.headersSent) {
-      res.write(`data: ${JSON.stringify({ error: "Stream failed.", done: true })}\n\n`);
-      res.end();
-    } else {
-      res.status(500).json({ error: "AI service error." });
-    }
-  }
-};
-
-// ─── GET /api/chat/history ────────────────────────────────────────────────────
 export const getChatHistory = async (req, res) => {
   try {
     const userId = getUserId(req);
@@ -166,14 +94,12 @@ export const getChatHistory = async (req, res) => {
   }
 };
 
-// ─── GET /api/chat/history/:id ────────────────────────────────────────────────
 export const getConversation = async (req, res) => {
   try {
     const userId = getUserId(req);
     if (!userId) return res.status(401).json({ error: "Unauthorized." });
 
     const conversation = await Conversation.findOne({ _id: req.params.id, userId });
-    console.log(conversation);
     if (!conversation) return res.status(404).json({ error: "Conversation not found." });
 
     return res.status(200).json({ conversation });
@@ -183,7 +109,7 @@ export const getConversation = async (req, res) => {
   }
 };
 
-// ─── DELETE /api/chat/history/:id ─────────────────────────────────────────────
+
 export const deleteConversation = async (req, res) => {
   try {
     const userId = getUserId(req);
@@ -192,9 +118,23 @@ export const deleteConversation = async (req, res) => {
     const result = await Conversation.findOneAndDelete({ _id: req.params.id, userId });
     if (!result) return res.status(404).json({ error: "Conversation not found." });
 
+    await cache.invalidateUser(userId);
+
     return res.status(200).json({ message: "Conversation deleted." });
   } catch (error) {
     console.error("[deleteConversation] Error:", error);
     return res.status(500).json({ error: "Failed to delete conversation." });
+  }
+};
+
+
+export const getCacheStats = async (req, res) => {
+  try {
+    const data = await cache.stats();
+    if (!data) return res.status(503).json({ error: "Redis stats unavailable." });
+    return res.status(200).json({ cache: data });
+  } catch (error) {
+    console.error("[getCacheStats] Error:", error);
+    return res.status(500).json({ error: "Failed to fetch cache stats." });
   }
 };

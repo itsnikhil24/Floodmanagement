@@ -2,7 +2,7 @@
   "name": "flood-management-website",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
@@ -22,6 +22,7 @@
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "gridfs-stream": "^1.1.1",
+    "ioredis": "^5.11.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.3",
