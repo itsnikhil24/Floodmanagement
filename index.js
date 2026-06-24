@@ -34,7 +34,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Database connection
-connectDB(process.env.MONGO_URI);
+connectDB(process.env.mongoURI);
 
 // Routes
 app.use("/", authRoutes);
