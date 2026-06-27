@@ -29,8 +29,6 @@ const conversationSchema = new mongoose.Schema(
       default: "New conversation",
     },
     messages: [messageSchema],
-    // Cache: store last AI response hash to avoid re-calling Gemini
-    // for the exact same question from the same user
     lastQueryHash: {
       type: String,
       default: null,
@@ -46,8 +44,6 @@ const conversationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-// Auto-generate a title from the first user message
 conversationSchema.pre("save", function (next) {
   if (
     this.isNew &&

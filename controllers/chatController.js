@@ -29,8 +29,7 @@ async function getOrCreateConversation(userId, conversationId) {
   return new Conversation({ userId, messages: [] });
 }
 
-// Generates a short readable title from the first exchange.
-// Only called once per conversation, runs in the background (non-blocking).
+
 async function generateTitle(userQuery, aiResponseText) {
   try {
     let summary = "Flood advice";
@@ -93,35 +92,18 @@ export const chatbotResponse = async (req, res) => {
       parsed = { summary: text, urgency: "low", steps: [], warning: null, followUp: [] };
     }
 
-    // ── Decide what to persist to MongoDB ─────────────────────────────────────
-    //
-    // Case A: isFallback = true
-    //   Gemini was down. Don't save anything — the conversation history should
-    //   not contain "service is busy" as a permanent turn. The user will retry
-    //   and the next successful response will be saved normally.
-    //
-    // Case B: fromCache = true (and not a fallback)
-    //   A real cached response. Save the USER message so history stays complete,
-    //   but do NOT push the model reply again — it was already saved when this
-    //   response was first generated. Pushing it again would duplicate it.
-    //
-    // Case C: fromCache = false, isFallback = false
-    //   Fresh successful Gemini response. Save both turns normally.
-    //
     if (!isFallback) {
       conversation.messages.push({ role: "user", text: trimmedQuery });
 
       if (!fromCache) {
-        // Only add the model reply for fresh responses — not cache hits
         conversation.messages.push({ role: "model", text });
       }
 
-      // Cap conversation length at 200 messages to prevent unbounded growth
+
       if (conversation.messages.length > 200) {
         conversation.messages = conversation.messages.slice(-200);
       }
 
-      // Generate a smart title on the very first real response
       const isFirstResponse =
         conversation.title === "New conversation" &&
         !fromCache &&
@@ -129,7 +111,6 @@ export const chatbotResponse = async (req, res) => {
 
       await conversation.save();
 
-      // Title generation runs after save — non-blocking, doesn't delay response
       if (isFirstResponse) {
         generateTitle(trimmedQuery, text)
           .then((title) =>
@@ -155,7 +136,7 @@ export const chatbotResponse = async (req, res) => {
   }
 };
 
-// ─── GET /api/chat/history ────────────────────────────────────────────────────
+
 export const getChatHistory = async (req, res) => {
   try {
     const userId = getUserId(req);
@@ -174,7 +155,7 @@ export const getChatHistory = async (req, res) => {
   }
 };
 
-// ─── GET /api/chat/history/:id ────────────────────────────────────────────────
+
 export const getConversation = async (req, res) => {
   try {
     const userId = getUserId(req);
@@ -190,7 +171,6 @@ export const getConversation = async (req, res) => {
   }
 };
 
-// ─── DELETE /api/chat/history/:id ─────────────────────────────────────────────
 export const deleteConversation = async (req, res) => {
   try {
     const userId = getUserId(req);
@@ -199,7 +179,6 @@ export const deleteConversation = async (req, res) => {
     const result = await Conversation.findOneAndDelete({ _id: req.params.id, userId });
     if (!result) return res.status(404).json({ error: "Conversation not found." });
 
-    // Purge this user's Redis cache so stale answers don't surface in new sessions
     await cache.invalidateUser(userId);
 
     return res.status(200).json({ message: "Conversation deleted." });
@@ -209,7 +188,7 @@ export const deleteConversation = async (req, res) => {
   }
 };
 
-// ─── GET /api/chat/cache-stats ────────────────────────────────────────────────
+// GET /api/chat/cache-stats 
 export const getCacheStats = async (req, res) => {
   try {
     const data = await cache.stats();
